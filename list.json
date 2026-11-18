@@ -46,6 +46,17 @@
       "link": "https://github.com/loamhq/plugins/tree/images-v1.1.0/images"
     },
     {
+      "id": "mist-trail",
+      "name": "Mist Trail",
+      "description": "A theme drawn from waterfall spray, fir shade and cedar trunks along a forest trail.",
+      "author": "Loam contributors",
+      "kind": [
+        "theme"
+      ],
+      "version": "1.0.0",
+      "link": "https://github.com/loamhq/plugins/tree/mist-trail-v1.0.0/mist-trail"
+    },
+    {
       "id": "syncthing",
       "name": "Syncthing",
       "description": "Keep your vault on your own phone and laptop, synced with your server over Syncthing, and let your agents pair a new device.",
