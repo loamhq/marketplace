@@ -66,6 +66,17 @@
       ],
       "version": "1.0.0",
       "link": "https://github.com/loamhq/plugins/tree/syncthing-v1.0.0/syncthing"
+    },
+    {
+      "id": "yosemite",
+      "name": "Yosemite",
+      "description": "A theme drawn from granite walls, meadow grasses and national park signage.",
+      "author": "Loam contributors",
+      "kind": [
+        "theme"
+      ],
+      "version": "1.0.0",
+      "link": "https://github.com/loamhq/plugins/tree/yosemite-v1.0.0/yosemite"
     }
   ]
 }
