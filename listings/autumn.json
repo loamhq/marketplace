@@ -1,0 +1,11 @@
+{
+  "id": "autumn",
+  "name": "Autumn",
+  "description": "A theme drawn from golden leaves in daylight and a red maple at dusk.",
+  "author": "Loam contributors",
+  "kind": [
+    "theme"
+  ],
+  "version": "1.0.0",
+  "link": "https://github.com/loamhq/plugins/tree/autumn-v1.0.0/autumn"
+}
