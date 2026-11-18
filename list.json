@@ -24,6 +24,17 @@
       "link": "https://github.com/loamhq/plugins/tree/deep-forest-v1.0.0/deep-forest"
     },
     {
+      "id": "foundry",
+      "name": "Foundry",
+      "description": "A theme drawn from steel, concrete and the patina of a working foundry.",
+      "author": "Loam contributors",
+      "kind": [
+        "theme"
+      ],
+      "version": "1.0.0",
+      "link": "https://github.com/loamhq/plugins/tree/foundry-v1.0.0/foundry"
+    },
+    {
       "id": "images",
       "name": "Images",
       "description": "Your agents make and change pictures with OpenAI or Google, and save each one in your vault.",
