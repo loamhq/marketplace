@@ -2,6 +2,17 @@
   "version": 1,
   "plugins": [
     {
+      "id": "autumn",
+      "name": "Autumn",
+      "description": "A theme drawn from golden leaves in daylight and a red maple at dusk.",
+      "author": "Loam contributors",
+      "kind": [
+        "theme"
+      ],
+      "version": "1.0.0",
+      "link": "https://github.com/loamhq/plugins/tree/autumn-v1.0.0/autumn"
+    },
+    {
       "id": "images",
       "name": "Images",
       "description": "Your agents make and change pictures with OpenAI or Google, and save each one in your vault.",
