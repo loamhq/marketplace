@@ -28,12 +28,15 @@ FORMAT = 1
 ID = re.compile(r"^[a-z][a-z0-9-]*$")
 KINDS = ("theme", "extension", "app", "agent", "skill")
 LIMITS = {"name": 60, "author": 60, "description": 200}
-FIELDS = ("id", "name", "description", "author", "kind", "version", "link", "homepage")
+FIELDS = ("id", "name", "description", "author", "kind", "version", "link", "homepage",
+          "featured", "image")
 # A folder of a GitHub repository at a tag or a full commit: .../tree/<ref>[/<folder>]
 LINK = re.compile(r"^https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/tree/([^/?#]+)(/[^?#]*)?$")
 SHA = re.compile(r"^[0-9a-f]{40}$")
 BRANCHES = {"main", "master", "trunk", "develop", "dev"}
 VERSION = re.compile(r"^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.+-]+)?$")
+# A picture inside the plugin's folder at its link, as a theme's cover is named.
+IMAGE = re.compile(r"^(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\.(?:webp|avif|jpe?g|png)$", re.I)
 
 
 def check(path: Path) -> tuple[dict | None, list[str]]:
@@ -70,6 +73,10 @@ def check(path: Path) -> tuple[dict | None, list[str]]:
         errors.append(f"{name}: `version` is major.minor.patch")
     if "homepage" in entry and not (isinstance(entry["homepage"], str) and entry["homepage"].startswith("https://")):
         errors.append(f"{name}: `homepage` is an https link")
+    if "featured" in entry and entry["featured"] is not True:
+        errors.append(f"{name}: `featured` is true, or left out")
+    if "image" in entry and not (isinstance(entry["image"], str) and IMAGE.match(entry["image"])):
+        errors.append(f"{name}: `image` is a picture in the plugin's folder (.webp, .avif, .jpg or .png)")
     extra = sorted(set(entry) - set(FIELDS))
     if extra:
         errors.append(f"{name}: unknown fields {', '.join(extra)}")

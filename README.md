@@ -1,7 +1,7 @@
 # The Loam marketplace
 
 The list of Loam plugins (themes, extensions, apps, agents and skills) that
-every Loam reads in Settings › Plugins. The plugins themselves are not here:
+every Loam reads in Settings › Market. The plugins themselves are not here:
 each builder hosts their own work in their own GitHub repository, and a
 listing points to it at a tag. Installing from a listing is the same as
 installing from its link: Loam shows what the plugin declares, and installs
@@ -57,6 +57,8 @@ By hand: add one file, `listings/<id>.json`, named by the plugin's id:
 | `version` | optional: the version at the link |
 | `link` | the plugin's folder at a tag or a full commit: `https://github.com/<owner>/<repo>/tree/<tag>/<folder>` |
 | `homepage` | optional: an https link about it |
+| `featured` | optional: `true` makes it the Market's lead story (set by a maintainer) |
+| `image` | optional: a picture in the plugin's folder (`.webp`, `.avif`, `.jpg` or `.png`), the lead story's cover |
 
 A new version is a pull request that changes `link` (and `version`). To be
 taken off the list, open a pull request that deletes the file.
