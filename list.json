@@ -1,4 +1,16 @@
 {
   "version": 1,
-  "plugins": []
+  "plugins": [
+    {
+      "id": "images",
+      "name": "Images",
+      "description": "Your agents make and change pictures with OpenAI or Google, and save each one in your vault.",
+      "author": "Loam contributors",
+      "kind": [
+        "extension"
+      ],
+      "version": "1.1.0",
+      "link": "https://github.com/loamhq/plugins/tree/images-v1.1.0/images"
+    }
+  ]
 }
