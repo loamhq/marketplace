@@ -11,6 +11,17 @@
       ],
       "version": "1.1.0",
       "link": "https://github.com/loamhq/plugins/tree/images-v1.1.0/images"
+    },
+    {
+      "id": "syncthing",
+      "name": "Syncthing",
+      "description": "Keep your vault on your own phone and laptop, synced with your server over Syncthing, and let your agents pair a new device.",
+      "author": "Loam contributors",
+      "kind": [
+        "extension"
+      ],
+      "version": "1.0.0",
+      "link": "https://github.com/loamhq/plugins/tree/syncthing-v1.0.0/syncthing"
     }
   ]
 }
