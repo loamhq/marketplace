@@ -6,8 +6,9 @@
   "kind": [
     "theme"
   ],
-  "version": "1.0.1",
-  "link": "https://github.com/loamhq/plugins/tree/autumn-v1.0.1/autumn",
+  "version": "1.0.2",
+  "link": "https://github.com/michaelhejazi/loam-autumn/tree/v1.0.2",
+  "featured": true,
   "cover": "cover-large.webp",
   "cover_dark": "cover-large-dark.webp"
 }

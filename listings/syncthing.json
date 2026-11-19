@@ -6,6 +6,6 @@
   "kind": [
     "extension"
   ],
-  "version": "1.0.0",
-  "link": "https://github.com/loamhq/plugins/tree/syncthing-v1.0.0/syncthing"
+  "version": "1.0.1",
+  "link": "https://github.com/michaelhejazi/loam-syncthing/tree/v1.0.1"
 }

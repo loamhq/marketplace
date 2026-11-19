@@ -7,6 +7,15 @@ listing points to it at a tag. Installing from a listing is the same as
 installing from its link: Loam shows what the plugin declares, and installs
 it only on its owner's yes.
 
+**Who makes what.** Everything listed here lives in its maker's own
+repository and is listed in their name, Loam's own makers included: one
+repository per plugin, versioned by its own tags. What Loam itself ships is
+not listed here. It is built in, comes with each Loam release, and is turned
+on or off in Settings › Plugins (Images, Daily notes, Comments and the
+reviewer among them). Something new starts here, in its maker's name; a
+plugin that proves itself can later be made part of Loam, and then leaves
+this list.
+
 ## What a listing asks of a plugin
 
 A listing is a pull request to this repository, and it is merged when:
@@ -76,7 +85,7 @@ With a cover and the maker's own links:
 | `description` | one sentence, at most 200 characters |
 | `kind` | one or more of `theme`, `extension`, `app`, `agent`, `skill` |
 | `version` | optional: the version at the link |
-| `link` | the plugin's folder at a tag or a full commit: `https://github.com/<owner>/<repo>/tree/<tag>/<folder>` |
+| `link` | the plugin's folder at a tag or a full commit: `https://github.com/<owner>/<repo>/tree/<tag>/<folder>`, or `…/tree/<tag>` when the plugin is the repository itself, as it is best kept |
 | `homepage` | optional: an https link about it |
 | `featured` | optional: `true` makes it the Market's lead story (set by a maintainer) |
 | `cover` | optional: the listing's picture, on its page and its cards: a file in the plugin's folder at the link (`.webp`, `.avif`, `.jpg` or `.png`), or an https link to one. Make it wide (at least 1500 pixels across, 3:2); Loam fetches it and the page never asks another host. Without one, Loam uses the plugin's own `image` (a theme's cover), else draws a theme in its own colours or shows the plugin's icon |

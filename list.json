@@ -9,8 +9,9 @@
       "kind": [
         "theme"
       ],
-      "version": "1.0.1",
-      "link": "https://github.com/loamhq/plugins/tree/autumn-v1.0.1/autumn",
+      "version": "1.0.2",
+      "link": "https://github.com/michaelhejazi/loam-autumn/tree/v1.0.2",
+      "featured": true,
       "cover": "cover-large.webp",
       "cover_dark": "cover-large-dark.webp"
     },
@@ -22,8 +23,8 @@
       "kind": [
         "theme"
       ],
-      "version": "1.0.1",
-      "link": "https://github.com/loamhq/plugins/tree/deep-forest-v1.0.1/deep-forest",
+      "version": "1.0.2",
+      "link": "https://github.com/michaelhejazi/loam-deep-forest/tree/v1.0.2",
       "cover": "cover-large.webp"
     },
     {
@@ -34,20 +35,9 @@
       "kind": [
         "theme"
       ],
-      "version": "1.0.1",
-      "link": "https://github.com/loamhq/plugins/tree/foundry-v1.0.1/foundry",
+      "version": "1.0.2",
+      "link": "https://github.com/michaelhejazi/loam-foundry/tree/v1.0.2",
       "cover": "cover-large.webp"
-    },
-    {
-      "id": "images",
-      "name": "Images",
-      "description": "Your agents make and change pictures with OpenAI or Google, and save each one in your vault.",
-      "author": "Michael Hejazi",
-      "kind": [
-        "extension"
-      ],
-      "version": "1.1.1",
-      "link": "https://github.com/loamhq/plugins/tree/images-v1.1.1/images"
     },
     {
       "id": "mist-trail",
@@ -57,8 +47,8 @@
       "kind": [
         "theme"
       ],
-      "version": "1.0.1",
-      "link": "https://github.com/loamhq/plugins/tree/mist-trail-v1.0.1/mist-trail",
+      "version": "1.0.2",
+      "link": "https://github.com/michaelhejazi/loam-mist-trail/tree/v1.0.2",
       "cover": "cover-large.webp"
     },
     {
@@ -69,8 +59,8 @@
       "kind": [
         "extension"
       ],
-      "version": "1.0.0",
-      "link": "https://github.com/loamhq/plugins/tree/syncthing-v1.0.0/syncthing"
+      "version": "1.0.1",
+      "link": "https://github.com/michaelhejazi/loam-syncthing/tree/v1.0.1"
     },
     {
       "id": "yosemite",
@@ -80,8 +70,8 @@
       "kind": [
         "theme"
       ],
-      "version": "1.0.1",
-      "link": "https://github.com/loamhq/plugins/tree/yosemite-v1.0.1/yosemite",
+      "version": "1.0.2",
+      "link": "https://github.com/michaelhejazi/loam-yosemite/tree/v1.0.2",
       "cover": "cover-large.webp"
     }
   ]
