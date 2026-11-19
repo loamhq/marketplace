@@ -2,7 +2,7 @@
   "id": "syncthing",
   "name": "Syncthing",
   "description": "Keep your vault on your own phone and laptop, synced with your server over Syncthing, and let your agents pair a new device.",
-  "author": "Loam contributors",
+  "author": "Michael Hejazi",
   "kind": [
     "extension"
   ],

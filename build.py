@@ -29,7 +29,11 @@ ID = re.compile(r"^[a-z][a-z0-9-]*$")
 KINDS = ("theme", "extension", "app", "agent", "skill")
 LIMITS = {"name": 60, "author": 60, "description": 200}
 FIELDS = ("id", "name", "description", "author", "kind", "version", "link", "homepage",
-          "featured", "image")
+          "featured", "cover", "cover_dark", "readme", "image")
+# What list.json carries besides: `creator`, the whole of an `author` given
+# as an object, while `author` there is the name alone, so a Loam that reads
+# only a name still lists it.
+OUT_FIELDS = FIELDS[:4] + ("creator",) + FIELDS[4:]
 # A folder of a GitHub repository at a tag or a full commit: .../tree/<ref>[/<folder>]
 LINK = re.compile(r"^https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/tree/([^/?#]+)(/[^?#]*)?$")
 SHA = re.compile(r"^[0-9a-f]{40}$")
@@ -37,6 +41,50 @@ BRANCHES = {"main", "master", "trunk", "develop", "dev"}
 VERSION = re.compile(r"^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.+-]+)?$")
 # A picture inside the plugin's folder at its link, as a theme's cover is named.
 IMAGE = re.compile(r"^(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\.(?:webp|avif|jpe?g|png)$", re.I)
+# A Markdown file inside the plugin's folder: the README its page shows.
+README = re.compile(r"^(?:[A-Za-z0-9_-][A-Za-z0-9_.-]*/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.(?:md|markdown)$", re.I)
+LINKS_MAX = 8
+LABEL_MAX = 40
+URL_MAX = 300
+MAILTO = re.compile(r"^mailto:[^@/?#\s]+@[^@/?#\s]+\.[^@/?#\s]+$", re.I)
+HTTPS = re.compile(r"^https://[^/\s?#]+[^\s]*$")
+
+
+def is_cover(value) -> bool:
+    """A cover: a picture in the plugin's folder, or an https address of one."""
+    return isinstance(value, str) and len(value) <= URL_MAX and bool(
+        IMAGE.match(value) or HTTPS.match(value))
+
+
+def check_author(name: str, value) -> list[str]:
+    """`author` is a name, or {"name", "links": [{"label", "url"}]}."""
+    if isinstance(value, str):
+        value = {"name": value}
+    if not isinstance(value, dict):
+        return [f"{name}: `author` is a name, or {{\"name\", \"links\"}}"]
+    errors = []
+    extra = sorted(set(value) - {"name", "links"})
+    if extra:
+        errors.append(f"{name}: `author` has unknown fields {', '.join(extra)}")
+    who = value.get("name")
+    if not isinstance(who, str) or not who.strip():
+        errors.append(f"{name}: `author` (or its `name`) is a line of text")
+    elif len(" ".join(who.split())) > LIMITS["author"]:
+        errors.append(f"{name}: `author` is at most {LIMITS['author']} characters")
+    links = value.get("links", [])
+    if not isinstance(links, list) or len(links) > LINKS_MAX:
+        errors.append(f"{name}: `author.links` is a list of at most {LINKS_MAX}")
+        return errors
+    for i, link in enumerate(links):
+        if not isinstance(link, dict) or set(link) - {"label", "url"}:
+            errors.append(f"{name}: `author.links[{i}]` is {{\"label\", \"url\"}}")
+            continue
+        url, label = link.get("url"), link.get("label", "")
+        if not isinstance(url, str) or len(url) > URL_MAX or not (HTTPS.match(url) or MAILTO.match(url)):
+            errors.append(f"{name}: `author.links[{i}].url` is an https link or mailto:")
+        if not isinstance(label, str) or len(label) > LABEL_MAX:
+            errors.append(f"{name}: `author.links[{i}].label` is at most {LABEL_MAX} characters")
+    return errors
 
 
 def check(path: Path) -> tuple[dict | None, list[str]]:
@@ -53,7 +101,8 @@ def check(path: Path) -> tuple[dict | None, list[str]]:
         errors.append(f"{name}: `id` is the plugin's id (lower case, digits, dashes)")
     elif name != f"{pid}.json":
         errors.append(f"{name}: the file is named by the id, `{pid}.json`")
-    for field, required in (("name", True), ("author", True), ("description", True)):
+    errors += check_author(name, entry.get("author"))
+    for field, required in (("name", True), ("description", True)):
         value = entry.get(field)
         if not isinstance(value, str) or not value.strip():
             errors.append(f"{name}: `{field}` is a line of text")
@@ -77,16 +126,32 @@ def check(path: Path) -> tuple[dict | None, list[str]]:
         errors.append(f"{name}: `featured` is true, or left out")
     if "image" in entry and not (isinstance(entry["image"], str) and IMAGE.match(entry["image"])):
         errors.append(f"{name}: `image` is a picture in the plugin's folder (.webp, .avif, .jpg or .png)")
+    if "image" in entry and "cover" in entry:
+        errors.append(f"{name}: `image` is the older name of `cover`; give `cover` alone")
+    for field in ("cover", "cover_dark"):
+        if field in entry and not is_cover(entry[field]):
+            errors.append(f"{name}: `{field}` is a picture in the plugin's folder (.webp, .avif, "
+                          f".jpg or .png) or an https link to one")
+    if "readme" in entry and not (isinstance(entry["readme"], str) and README.match(entry["readme"])
+                                  and ".." not in entry["readme"].split("/")):
+        errors.append(f"{name}: `readme` is a Markdown file in the plugin's folder")
     extra = sorted(set(entry) - set(FIELDS))
     if extra:
         errors.append(f"{name}: unknown fields {', '.join(extra)}")
     if errors:
         return None, errors
     out = {k: entry[k] for k in FIELDS if k in entry}
+    author = out["author"]
+    if isinstance(author, dict):
+        out["author"] = author["name"]
+        out["creator"] = {"name": " ".join(author["name"].split()),
+                          "links": [{"label": " ".join(link.get("label", "").split()), "url": link["url"]}
+                                    for link in author.get("links", [])]}
     for field in LIMITS:
         if field in out:
             out[field] = " ".join(out[field].split())
     out["kind"] = kind
+    out = {k: out[k] for k in OUT_FIELDS if k in out}
     return out, []
 
 

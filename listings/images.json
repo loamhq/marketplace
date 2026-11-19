@@ -2,7 +2,7 @@
   "id": "images",
   "name": "Images",
   "description": "Your agents make and change pictures with OpenAI or Google, and save each one in your vault.",
-  "author": "Loam contributors",
+  "author": "Michael Hejazi",
   "kind": [
     "extension"
   ],

@@ -2,10 +2,11 @@
   "id": "deep-forest",
   "name": "Deep Forest",
   "description": "A theme drawn from the fern floor and soft canopy light of an old forest.",
-  "author": "Loam contributors",
+  "author": "Michael Hejazi",
   "kind": [
     "theme"
   ],
-  "version": "1.0.0",
-  "link": "https://github.com/loamhq/plugins/tree/deep-forest-v1.0.0/deep-forest"
+  "version": "1.0.1",
+  "link": "https://github.com/loamhq/plugins/tree/deep-forest-v1.0.1/deep-forest",
+  "cover": "cover-large.webp"
 }

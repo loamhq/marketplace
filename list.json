@@ -5,40 +5,44 @@
       "id": "autumn",
       "name": "Autumn",
       "description": "A theme drawn from golden leaves in daylight and a red maple at dusk.",
-      "author": "Loam contributors",
+      "author": "Michael Hejazi",
       "kind": [
         "theme"
       ],
-      "version": "1.0.0",
-      "link": "https://github.com/loamhq/plugins/tree/autumn-v1.0.0/autumn"
+      "version": "1.0.1",
+      "link": "https://github.com/loamhq/plugins/tree/autumn-v1.0.1/autumn",
+      "cover": "cover-large.webp",
+      "cover_dark": "cover-large-dark.webp"
     },
     {
       "id": "deep-forest",
       "name": "Deep Forest",
       "description": "A theme drawn from the fern floor and soft canopy light of an old forest.",
-      "author": "Loam contributors",
+      "author": "Michael Hejazi",
       "kind": [
         "theme"
       ],
-      "version": "1.0.0",
-      "link": "https://github.com/loamhq/plugins/tree/deep-forest-v1.0.0/deep-forest"
+      "version": "1.0.1",
+      "link": "https://github.com/loamhq/plugins/tree/deep-forest-v1.0.1/deep-forest",
+      "cover": "cover-large.webp"
     },
     {
       "id": "foundry",
       "name": "Foundry",
       "description": "A theme drawn from steel, concrete and the patina of a working foundry.",
-      "author": "Loam contributors",
+      "author": "Michael Hejazi",
       "kind": [
         "theme"
       ],
-      "version": "1.0.0",
-      "link": "https://github.com/loamhq/plugins/tree/foundry-v1.0.0/foundry"
+      "version": "1.0.1",
+      "link": "https://github.com/loamhq/plugins/tree/foundry-v1.0.1/foundry",
+      "cover": "cover-large.webp"
     },
     {
       "id": "images",
       "name": "Images",
       "description": "Your agents make and change pictures with OpenAI or Google, and save each one in your vault.",
-      "author": "Loam contributors",
+      "author": "Michael Hejazi",
       "kind": [
         "extension"
       ],
@@ -49,18 +53,19 @@
       "id": "mist-trail",
       "name": "Mist Trail",
       "description": "A theme drawn from waterfall spray, fir shade and cedar trunks along a forest trail.",
-      "author": "Loam contributors",
+      "author": "Michael Hejazi",
       "kind": [
         "theme"
       ],
-      "version": "1.0.0",
-      "link": "https://github.com/loamhq/plugins/tree/mist-trail-v1.0.0/mist-trail"
+      "version": "1.0.1",
+      "link": "https://github.com/loamhq/plugins/tree/mist-trail-v1.0.1/mist-trail",
+      "cover": "cover-large.webp"
     },
     {
       "id": "syncthing",
       "name": "Syncthing",
       "description": "Keep your vault on your own phone and laptop, synced with your server over Syncthing, and let your agents pair a new device.",
-      "author": "Loam contributors",
+      "author": "Michael Hejazi",
       "kind": [
         "extension"
       ],
@@ -71,12 +76,13 @@
       "id": "yosemite",
       "name": "Yosemite",
       "description": "A theme drawn from granite walls, meadow grasses and national park signage.",
-      "author": "Loam contributors",
+      "author": "Michael Hejazi",
       "kind": [
         "theme"
       ],
-      "version": "1.0.0",
-      "link": "https://github.com/loamhq/plugins/tree/yosemite-v1.0.0/yosemite"
+      "version": "1.0.1",
+      "link": "https://github.com/loamhq/plugins/tree/yosemite-v1.0.1/yosemite",
+      "cover": "cover-large.webp"
     }
   ]
 }
