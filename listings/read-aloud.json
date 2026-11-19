@@ -1,0 +1,11 @@
+{
+  "id": "read-aloud",
+  "name": "Read aloud",
+  "description": "Hear your agents' replies, or a short spoken brief of them, and your notes read aloud, each agent in a voice of its own.",
+  "author": "Michael Hejazi",
+  "kind": [
+    "extension"
+  ],
+  "version": "1.0.1",
+  "link": "https://github.com/michaelhejazi/loam-read-aloud/tree/v1.0.1"
+}

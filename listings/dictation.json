@@ -1,0 +1,11 @@
+{
+  "id": "dictation",
+  "name": "Dictation",
+  "description": "Talk instead of typing: a microphone in the composer and Files that writes down what you say and tidies it.",
+  "author": "Michael Hejazi",
+  "kind": [
+    "extension"
+  ],
+  "version": "1.0.1",
+  "link": "https://github.com/michaelhejazi/loam-dictation/tree/v1.0.1"
+}
