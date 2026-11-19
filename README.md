@@ -85,7 +85,7 @@ With a cover and the maker's own links:
 | `description` | one sentence, at most 200 characters |
 | `kind` | one or more of `theme`, `extension`, `app`, `agent`, `skill` |
 | `version` | optional: the version at the link |
-| `link` | the plugin's folder at a tag or a full commit: `https://github.com/<owner>/<repo>/tree/<tag>/<folder>`, or `…/tree/<tag>` when the plugin is the repository itself, as it is best kept |
+| `link` | the plugin's folder at a tag or a full commit: `https://github.com/<owner>/<repo>/tree/<tag>/<folder>`, or `…/tree/<tag>` when the plugin is the whole repository |
 | `homepage` | optional: an https link about it |
 | `featured` | optional: `true` makes it the Market's lead story (set by a maintainer) |
 | `cover` | optional: the listing's picture, on its page and its cards: a file in the plugin's folder at the link (`.webp`, `.avif`, `.jpg` or `.png`), or an https link to one. Make it wide (at least 1500 pixels across, 3:2); Loam fetches it and the page never asks another host. Without one, Loam uses the plugin's own `image` (a theme's cover), else draws a theme in its own colours or shows the plugin's icon |
