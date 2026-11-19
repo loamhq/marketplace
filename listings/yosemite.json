@@ -1,12 +1,12 @@
 {
   "id": "yosemite",
   "name": "Yosemite",
-  "description": "A theme drawn from granite walls, meadow grasses and national park signage.",
+  "description": "Granite walls, meadow grasses and big sky, with the friendly lettering of a park sign.",
   "author": "Michael Hejazi",
   "kind": [
     "theme"
   ],
-  "version": "1.0.2",
-  "link": "https://github.com/michaelhejazi/loam-yosemite/tree/v1.0.2",
+  "version": "1.0.3",
+  "link": "https://github.com/michaelhejazi/loam-yosemite/tree/v1.0.3",
   "cover": "cover-large.webp"
 }

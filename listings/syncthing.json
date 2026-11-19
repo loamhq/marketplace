@@ -1,11 +1,12 @@
 {
   "id": "syncthing",
   "name": "Syncthing",
-  "description": "Keep your vault on your own phone and laptop, synced with your server over Syncthing, and let your agents pair a new device.",
+  "description": "Your notes on your own phone and laptop, kept in sync with no cloud in between.",
   "author": "Michael Hejazi",
   "kind": [
     "extension"
   ],
-  "version": "1.0.1",
-  "link": "https://github.com/michaelhejazi/loam-syncthing/tree/v1.0.1"
+  "version": "1.0.2",
+  "link": "https://github.com/michaelhejazi/loam-syncthing/tree/v1.0.2",
+  "cover": "cover.webp"
 }

@@ -1,12 +1,12 @@
 {
   "id": "mist-trail",
   "name": "Mist Trail",
-  "description": "A theme drawn from waterfall spray, fir shade and cedar trunks along a forest trail.",
+  "description": "Waterfall spray, fir shade and cedar bark: a cool, fresh Loam that feels like a morning walk.",
   "author": "Michael Hejazi",
   "kind": [
     "theme"
   ],
-  "version": "1.0.2",
-  "link": "https://github.com/michaelhejazi/loam-mist-trail/tree/v1.0.2",
+  "version": "1.0.3",
+  "link": "https://github.com/michaelhejazi/loam-mist-trail/tree/v1.0.3",
   "cover": "cover-large.webp"
 }

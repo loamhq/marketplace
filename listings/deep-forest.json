@@ -1,12 +1,12 @@
 {
   "id": "deep-forest",
   "name": "Deep Forest",
-  "description": "A theme drawn from the fern floor and soft canopy light of an old forest.",
+  "description": "Mossy greens and soft canopy light, for a calmer Loam by day and by night.",
   "author": "Michael Hejazi",
   "kind": [
     "theme"
   ],
-  "version": "1.0.2",
-  "link": "https://github.com/michaelhejazi/loam-deep-forest/tree/v1.0.2",
+  "version": "1.0.3",
+  "link": "https://github.com/michaelhejazi/loam-deep-forest/tree/v1.0.3",
   "cover": "cover-large.webp"
 }

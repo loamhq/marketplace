@@ -1,13 +1,13 @@
 {
   "id": "autumn",
   "name": "Autumn",
-  "description": "A theme drawn from golden leaves in daylight and a red maple at dusk.",
+  "description": "Golden leaves by day and a red maple at dusk: a warm, cosy Loam in light and in dark.",
   "author": "Michael Hejazi",
   "kind": [
     "theme"
   ],
-  "version": "1.0.2",
-  "link": "https://github.com/michaelhejazi/loam-autumn/tree/v1.0.2",
+  "version": "1.0.3",
+  "link": "https://github.com/michaelhejazi/loam-autumn/tree/v1.0.3",
   "featured": true,
   "cover": "cover-large.webp",
   "cover_dark": "cover-large-dark.webp"

@@ -1,12 +1,12 @@
 {
   "id": "foundry",
   "name": "Foundry",
-  "description": "A theme drawn from steel, concrete and the patina of a working foundry.",
+  "description": "Steel, concrete and patina: a crisp, workmanlike Loam with square corners and a bold display face.",
   "author": "Michael Hejazi",
   "kind": [
     "theme"
   ],
-  "version": "1.0.2",
-  "link": "https://github.com/michaelhejazi/loam-foundry/tree/v1.0.2",
+  "version": "1.0.3",
+  "link": "https://github.com/michaelhejazi/loam-foundry/tree/v1.0.3",
   "cover": "cover-large.webp"
 }
