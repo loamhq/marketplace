@@ -4,13 +4,13 @@
     {
       "id": "autumn",
       "name": "Autumn",
-      "description": "A theme drawn from golden leaves in daylight and a red maple at dusk.",
+      "description": "Golden leaves by day and a red maple at dusk: a warm, cosy Loam in light and in dark.",
       "author": "Michael Hejazi",
       "kind": [
         "theme"
       ],
-      "version": "1.0.2",
-      "link": "https://github.com/michaelhejazi/loam-autumn/tree/v1.0.2",
+      "version": "1.0.3",
+      "link": "https://github.com/michaelhejazi/loam-autumn/tree/v1.0.3",
       "featured": true,
       "cover": "cover-large.webp",
       "cover_dark": "cover-large-dark.webp"
@@ -18,82 +18,85 @@
     {
       "id": "deep-forest",
       "name": "Deep Forest",
-      "description": "A theme drawn from the fern floor and soft canopy light of an old forest.",
+      "description": "Mossy greens and soft canopy light, for a calmer Loam by day and by night.",
       "author": "Michael Hejazi",
       "kind": [
         "theme"
       ],
-      "version": "1.0.2",
-      "link": "https://github.com/michaelhejazi/loam-deep-forest/tree/v1.0.2",
+      "version": "1.0.3",
+      "link": "https://github.com/michaelhejazi/loam-deep-forest/tree/v1.0.3",
       "cover": "cover-large.webp"
     },
     {
       "id": "dictation",
       "name": "Dictation",
-      "description": "Talk instead of typing: a microphone in the composer and Files that writes down what you say and tidies it.",
-      "author": "Michael Hejazi",
-      "kind": [
-        "extension"
-      ],
-      "version": "1.1.1",
-      "link": "https://github.com/michaelhejazi/loam-dictation/tree/v1.1.1"
-    },
-    {
-      "id": "foundry",
-      "name": "Foundry",
-      "description": "A theme drawn from steel, concrete and the patina of a working foundry.",
-      "author": "Michael Hejazi",
-      "kind": [
-        "theme"
-      ],
-      "version": "1.0.2",
-      "link": "https://github.com/michaelhejazi/loam-foundry/tree/v1.0.2",
-      "cover": "cover-large.webp"
-    },
-    {
-      "id": "mist-trail",
-      "name": "Mist Trail",
-      "description": "A theme drawn from waterfall spray, fir shade and cedar trunks along a forest trail.",
-      "author": "Michael Hejazi",
-      "kind": [
-        "theme"
-      ],
-      "version": "1.0.2",
-      "link": "https://github.com/michaelhejazi/loam-mist-trail/tree/v1.0.2",
-      "cover": "cover-large.webp"
-    },
-    {
-      "id": "read-aloud",
-      "name": "Read aloud",
-      "description": "Hear your agents' replies, or a short spoken brief of them, and your notes read aloud, each agent in a voice of its own.",
+      "description": "Talk instead of typing: say it, and tidy words land in your draft.",
       "author": "Michael Hejazi",
       "kind": [
         "extension"
       ],
       "version": "1.1.2",
-      "link": "https://github.com/michaelhejazi/loam-read-aloud/tree/v1.1.2"
+      "link": "https://github.com/michaelhejazi/loam-dictation/tree/v1.1.2",
+      "cover": "cover.webp"
     },
     {
-      "id": "syncthing",
-      "name": "Syncthing",
-      "description": "Keep your vault on your own phone and laptop, synced with your server over Syncthing, and let your agents pair a new device.",
-      "author": "Michael Hejazi",
-      "kind": [
-        "extension"
-      ],
-      "version": "1.0.1",
-      "link": "https://github.com/michaelhejazi/loam-syncthing/tree/v1.0.1"
-    },
-    {
-      "id": "yosemite",
-      "name": "Yosemite",
-      "description": "A theme drawn from granite walls, meadow grasses and national park signage.",
+      "id": "foundry",
+      "name": "Foundry",
+      "description": "Steel, concrete and patina: a crisp, workmanlike Loam with square corners and a bold display face.",
       "author": "Michael Hejazi",
       "kind": [
         "theme"
       ],
+      "version": "1.0.3",
+      "link": "https://github.com/michaelhejazi/loam-foundry/tree/v1.0.3",
+      "cover": "cover-large.webp"
+    },
+    {
+      "id": "mist-trail",
+      "name": "Mist Trail",
+      "description": "Waterfall spray, fir shade and cedar bark: a cool, fresh Loam that feels like a morning walk.",
+      "author": "Michael Hejazi",
+      "kind": [
+        "theme"
+      ],
+      "version": "1.0.3",
+      "link": "https://github.com/michaelhejazi/loam-mist-trail/tree/v1.0.3",
+      "cover": "cover-large.webp"
+    },
+    {
+      "id": "read-aloud",
+      "name": "Read aloud",
+      "description": "Listen to your agents instead of reading them, each in a voice of its own.",
+      "author": "Michael Hejazi",
+      "kind": [
+        "extension"
+      ],
+      "version": "1.1.3",
+      "link": "https://github.com/michaelhejazi/loam-read-aloud/tree/v1.1.3",
+      "cover": "cover.webp"
+    },
+    {
+      "id": "syncthing",
+      "name": "Syncthing",
+      "description": "Your notes on your own phone and laptop, kept in sync with no cloud in between.",
+      "author": "Michael Hejazi",
+      "kind": [
+        "extension"
+      ],
       "version": "1.0.2",
-      "link": "https://github.com/michaelhejazi/loam-yosemite/tree/v1.0.2",
+      "link": "https://github.com/michaelhejazi/loam-syncthing/tree/v1.0.2",
+      "cover": "cover.webp"
+    },
+    {
+      "id": "yosemite",
+      "name": "Yosemite",
+      "description": "Granite walls, meadow grasses and big sky, with the friendly lettering of a park sign.",
+      "author": "Michael Hejazi",
+      "kind": [
+        "theme"
+      ],
+      "version": "1.0.3",
+      "link": "https://github.com/michaelhejazi/loam-yosemite/tree/v1.0.3",
       "cover": "cover-large.webp"
     }
   ]
