@@ -1,0 +1,27 @@
+{
+  "id": "mist-trail",
+  "link": "https://github.com/michaelhejazi/loam-mist-trail/tree/v1.0.3",
+  "commit": "652e3d7bc7fe2e6c16c19b05b0fa86f85967162e",
+  "tag": "v1.0.3",
+  "folder": "",
+  "version": "1.0.3",
+  "reviewed_at": "2026-11-20",
+  "model": "gemini-4-argon",
+  "standards": "a8beac77447e",
+  "note": {
+    "summary": "Mist Trail is a visual theme for Loam inspired by forest shade, morning fog, and cedar bark, with palettes for both light and dark modes. It includes only CSS token definitions, bundled font files, and preview images, and runs no code.",
+    "touches": [
+      "Nothing: it makes no network requests, reads no conversations or memory, and runs no code in the browser or on the server."
+    ],
+    "may_change": [
+      "Loam's colour palette in light and dark modes.",
+      "The display heading font (sets it to the bundled DM Serif Display).",
+      "Appearance options for agent face shapes and inner marks or initials when selected."
+    ],
+    "worth_knowing": [
+      "The DM Serif Display font files are bundled locally in the plugin folder, so loading the font does not contact any external font service."
+    ],
+    "changed": [],
+    "since": ""
+  }
+}

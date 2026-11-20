@@ -1,0 +1,32 @@
+{
+  "id": "dictation",
+  "link": "https://github.com/michaelhejazi/loam-dictation/tree/v1.1.3",
+  "commit": "7bb9a52ccacbda001fa0d764b25e2b6ba4dcde60",
+  "tag": "v1.1.3",
+  "folder": "",
+  "version": "1.1.3",
+  "reviewed_at": "2026-11-20",
+  "model": "gemini-4-argon",
+  "standards": "a8beac77447e",
+  "note": {
+    "summary": "Dictation adds a microphone button to the composer, full-screen editor, and file editor so you can speak into your draft instead of typing. By default it records your take and sends it through its own plugin server to Google Gemini for transcription and optional cleanup, or you can switch it to use your browser's built-in live speech recognition.",
+    "touches": [
+      "Your microphone in the browser while you are recording a take",
+      "generativelanguage.googleapis.com from the plugin's server, sending recorded audio, custom vocabulary terms, and the resulting transcript (when Polish is Light or Full) using your Google Gemini key",
+      "Your browser's built-in speech recognition service when you choose 'As you speak' mode",
+      "Your current conversation (the agent's name, thread title, and capitalized names from the last 8 messages) and the file 'Dictation terms.md' in your vault's system folder, read to bias spelling toward names and terms you use",
+      "Runs a local Node server on your Loam host that holds the Google Gemini API key and reads your dictation terms note"
+    ],
+    "may_change": [
+      "Adds a microphone button and an inline recording bar to the composer, full-screen editor, and file editor, and inserts transcribed words at your cursor",
+      "Adds a Dictation preferences section in Settings and saves your mode, polish level, maximum recording length, and chosen microphone in this browser's device settings"
+    ],
+    "worth_knowing": [
+      "It only inserts words into your draft at the cursor; it never sends a message or saves a file on its own.",
+      "In 'Record first' mode, capitalized words from the last 8 messages of the open conversation and terms from your 'Dictation terms.md' note are sent to Google Gemini alongside the audio to help it spell names right.",
+      "When Polish is set to Light or Full, a second request is sent to Gemini with `store: false`, and a local check falls back to the unpolished transcript if the model adds unfamiliar proper nouns, changes the word count too much, or replies as a chatbot."
+    ],
+    "changed": [],
+    "since": ""
+  }
+}

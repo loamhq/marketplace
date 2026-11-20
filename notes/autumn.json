@@ -1,0 +1,25 @@
+{
+  "id": "autumn",
+  "link": "https://github.com/michaelhejazi/loam-autumn/tree/v1.0.3",
+  "commit": "d622f77e57294791b5510922fae0931d73bb8cfe",
+  "tag": "v1.0.3",
+  "folder": "",
+  "version": "1.0.3",
+  "reviewed_at": "2026-11-20",
+  "model": "gemini-4-argon",
+  "standards": "a8beac77447e",
+  "note": {
+    "summary": "Autumn is a visual theme that dresses Loam in warm paper, copper, and maple tones for light and dark modes, with headings set in Young Serif. It contains only CSS stylesheets, local font files, and preview images, and runs no code.",
+    "touches": [
+      "Nothing: it makes no network requests, reads no conversations or memory, and runs no browser or server code."
+    ],
+    "may_change": [
+      "Loam's colour palette in light and dark modes, display heading font (Young Serif), and appearance options for agent avatar shapes and marks when selected as your active theme."
+    ],
+    "worth_knowing": [
+      "The Young Serif display font is bundled locally as WOFF2 files, so no external font service is contacted."
+    ],
+    "changed": [],
+    "since": ""
+  }
+}

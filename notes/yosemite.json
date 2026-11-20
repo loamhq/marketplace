@@ -1,0 +1,26 @@
+{
+  "id": "yosemite",
+  "link": "https://github.com/michaelhejazi/loam-yosemite/tree/v1.0.3",
+  "commit": "972b2b0c906b8a07f7962d34d61fa903b7043237",
+  "tag": "v1.0.3",
+  "folder": "",
+  "version": "1.0.3",
+  "reviewed_at": "2026-11-20",
+  "model": "gemini-4-argon",
+  "standards": "a8beac77447e",
+  "note": {
+    "summary": "Yosemite is a light and dark colour theme inspired by granite walls, meadow grasses and national park signage, with headings set in Zilla Slab. It contains only CSS, local font files and preview images, and runs no code.",
+    "touches": [
+      "Nothing outside how Loam looks: no network hosts, conversations, memory or server code."
+    ],
+    "may_change": [
+      "Loam's light and dark colour palette, display heading font (Zilla Slab), and the shape and content of agent faces when chosen in Settings › Appearance."
+    ],
+    "worth_knowing": [
+      "The Zilla Slab font files are bundled inside the plugin and loaded locally rather than fetched from an external font host.",
+      "Includes appearance options for agent face shapes (Signature, Each its own, Circle, Rounded square) and face content (Mark, Initials)."
+    ],
+    "changed": [],
+    "since": ""
+  }
+}

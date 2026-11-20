@@ -11,6 +11,18 @@ with nothing to merge by hand. `list.json` is what every Loam reads; it is
 built from the listings when a pull request is merged (the workflow in
 .github/workflows/list.yml), never edited by hand.
 
+**Only a reviewed listing is listed.** Loam's reviewer
+(.github/workflows/review.yml, review/) writes `notes/<id>.json` when it
+passes a listing: the link it reviewed, the commit that link named then, and
+Loam's note. A listing goes into list.json only when its note is for its own
+`link`, and goes there with `review` (that commit and that note), so every
+Loam installs exactly the commit that was reviewed even if a tag is moved
+later. A listing with no note, or a note for another link, is left out until
+it is reviewed; no hand edit can list something the reviewer did not pass.
+The one exception is review/kept.json: listings that were on the list before
+the reviewer and that its first review refused, kept exactly as they were
+(same link, no note) until a new version of each passes.
+
 The rules are the ones a Loam applies when it reads the list
 (lib/loam_marketplace.py in loamhq/loam, `check_entry`): a listing that breaks
 one is left out there, so it is refused here first. Python 3.9+, no packages.
@@ -155,12 +167,77 @@ def check(path: Path) -> tuple[dict | None, list[str]]:
     return out, []
 
 
-def build(root: Path = HERE) -> tuple[dict, list[str]]:
+NOTE_LISTS = ("touches", "may_change", "worth_knowing", "changed")
+NOTE_ITEMS, NOTE_ITEM_MAX, SUMMARY_MAX = 8, 400, 600
+
+
+def _text(value, limit: int) -> str | None:
+    return " ".join(value.split())[:limit] if isinstance(value, str) and value.strip() else None
+
+
+def review_of(root: Path, pid: str, link: str) -> tuple[dict | None, str | None]:
+    """The reviewer's record for the listing at ``link``, as list.json
+    carries it, or why the listing waits (not reviewed, or reviewed at
+    another link)."""
+    path = root / "notes" / f"{pid}.json"
+    if not path.is_file():
+        return None, f"{pid}: not reviewed yet"
+    try:
+        note = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        return None, f"{pid}: its note is not JSON ({exc})"
+    if not isinstance(note, dict) or note.get("link") != link:
+        return None, f"{pid}: its note is for another link; the listing waits for its review"
+    if not isinstance(note.get("commit"), str) or not SHA.match(note["commit"]):
+        return None, f"{pid}: its note names no whole commit"
+    body = note.get("note") if isinstance(note.get("note"), dict) else {}
+    out_note = {"summary": _text(body.get("summary"), SUMMARY_MAX) or ""}
+    for field in NOTE_LISTS:
+        items = [t for t in (_text(x, NOTE_ITEM_MAX) for x in body.get(field) or []
+                             if isinstance(body.get(field), list)) if t][:NOTE_ITEMS]
+        if items:
+            out_note[field] = items
+    if _text(body.get("since"), 40):
+        out_note["since"] = _text(body.get("since"), 40)
+    review = {"commit": note["commit"], "note": out_note}
+    folder = note.get("folder")
+    if isinstance(folder, str) and (folder == "" or (re.match(r"^[A-Za-z0-9_./-]+$", folder)
+                                                     and ".." not in folder.split("/"))):
+        review["folder"] = folder
+    for field in ("version", "reviewed_at"):
+        if _text(note.get(field), 40):
+            review[field] = _text(note.get(field), 40)
+    return review, None
+
+
+def kept_as_before(root: Path, pid: str, link: str) -> bool:
+    """A listing that was on the list before the reviewer, and that the
+    first review refused, stays listed as it was, at exactly the link it had
+    then and with no note, until a new version of it passes
+    (review/kept.json). Any other link for it waits for its review."""
+    path = root / "review" / "kept.json"
+    try:
+        kept = json.loads(path.read_text(encoding="utf-8")).get("listings", {})
+    except (OSError, ValueError, AttributeError):
+        return False
+    return isinstance(kept, dict) and kept.get(pid) == link
+
+
+def build(root: Path = HERE, waiting: list | None = None) -> tuple[dict, list[str]]:
     entries, errors = [], []
     for path in sorted((root / "listings").glob("*.json")):
         entry, problems = check(path)
         errors += problems
         if entry:
+            review, why = review_of(root, entry["id"], entry["link"])
+            if why and kept_as_before(root, entry["id"], entry["link"]):
+                entries.append(entry)
+                continue
+            if why:
+                if waiting is not None:
+                    waiting.append(why)
+                continue
+            entry["review"] = review
             entries.append(entry)
     entries.sort(key=lambda e: (e["name"].lower(), e["id"]))
     return {"version": FORMAT, "plugins": entries}, errors
@@ -172,9 +249,12 @@ def text_of(data: dict) -> str:
 
 def main(argv: list[str]) -> int:
     root = HERE
-    data, errors = build(root)
+    waiting: list[str] = []
+    data, errors = build(root, waiting)
     for line in errors:
         print(line, file=sys.stderr)
+    for line in waiting:
+        print(f"left out: {line}", file=sys.stderr)
     if "--check" in argv:
         current = (root / "list.json").read_text(encoding="utf-8") if (root / "list.json").is_file() else ""
         if errors:

@@ -13,7 +13,25 @@
       "link": "https://github.com/michaelhejazi/loam-autumn/tree/v1.0.3",
       "featured": true,
       "cover": "cover-large.webp",
-      "cover_dark": "cover-large-dark.webp"
+      "cover_dark": "cover-large-dark.webp",
+      "review": {
+        "commit": "d622f77e57294791b5510922fae0931d73bb8cfe",
+        "note": {
+          "summary": "Autumn is a visual theme that dresses Loam in warm paper, copper, and maple tones for light and dark modes, with headings set in Young Serif. It contains only CSS stylesheets, local font files, and preview images, and runs no code.",
+          "touches": [
+            "Nothing: it makes no network requests, reads no conversations or memory, and runs no browser or server code."
+          ],
+          "may_change": [
+            "Loam's colour palette in light and dark modes, display heading font (Young Serif), and appearance options for agent avatar shapes and marks when selected as your active theme."
+          ],
+          "worth_knowing": [
+            "The Young Serif display font is bundled locally as WOFF2 files, so no external font service is contacted."
+          ]
+        },
+        "folder": "",
+        "version": "1.0.3",
+        "reviewed_at": "2026-11-20"
+      }
     },
     {
       "id": "deep-forest",
@@ -25,7 +43,27 @@
       ],
       "version": "1.0.3",
       "link": "https://github.com/michaelhejazi/loam-deep-forest/tree/v1.0.3",
-      "cover": "cover-large.webp"
+      "cover": "cover-large.webp",
+      "review": {
+        "commit": "6f8464b77e15d88c808f3c116d3a59899df494c0",
+        "note": {
+          "summary": "Deep Forest is a visual theme that dresses Loam in mossy greens and soft canopy colours for both light and dark modes, pairing them with the Fraunces display font for headings. It contains only CSS stylesheets, local font files, and preview images, and runs no code.",
+          "touches": [
+            "Nothing outside appearance: it makes no network requests, reads no conversations or memory, and runs no code in your browser or on your server."
+          ],
+          "may_change": [
+            "Loam's colour palette in light and dark modes through CSS custom properties.",
+            "The display font used for headings (to a bundled copy of Fraunces).",
+            "Appearance options for agent avatar shapes and whether avatars show a mark or initials."
+          ],
+          "worth_knowing": [
+            "The Fraunces font files are bundled directly in the plugin, so your browser does not contact an external font service to load them."
+          ]
+        },
+        "folder": "",
+        "version": "1.0.3",
+        "reviewed_at": "2026-11-20"
+      }
     },
     {
       "id": "dictation",
@@ -37,7 +75,32 @@
       ],
       "version": "1.1.3",
       "link": "https://github.com/michaelhejazi/loam-dictation/tree/v1.1.3",
-      "cover": "cover.webp"
+      "cover": "cover.webp",
+      "review": {
+        "commit": "7bb9a52ccacbda001fa0d764b25e2b6ba4dcde60",
+        "note": {
+          "summary": "Dictation adds a microphone button to the composer, full-screen editor, and file editor so you can speak into your draft instead of typing. By default it records your take and sends it through its own plugin server to Google Gemini for transcription and optional cleanup, or you can switch it to use your browser's built-in live speech recognition.",
+          "touches": [
+            "Your microphone in the browser while you are recording a take",
+            "generativelanguage.googleapis.com from the plugin's server, sending recorded audio, custom vocabulary terms, and the resulting transcript (when Polish is Light or Full) using your Google Gemini key",
+            "Your browser's built-in speech recognition service when you choose 'As you speak' mode",
+            "Your current conversation (the agent's name, thread title, and capitalized names from the last 8 messages) and the file 'Dictation terms.md' in your vault's system folder, read to bias spelling toward names and terms you use",
+            "Runs a local Node server on your Loam host that holds the Google Gemini API key and reads your dictation terms note"
+          ],
+          "may_change": [
+            "Adds a microphone button and an inline recording bar to the composer, full-screen editor, and file editor, and inserts transcribed words at your cursor",
+            "Adds a Dictation preferences section in Settings and saves your mode, polish level, maximum recording length, and chosen microphone in this browser's device settings"
+          ],
+          "worth_knowing": [
+            "It only inserts words into your draft at the cursor; it never sends a message or saves a file on its own.",
+            "In 'Record first' mode, capitalized words from the last 8 messages of the open conversation and terms from your 'Dictation terms.md' note are sent to Google Gemini alongside the audio to help it spell names right.",
+            "When Polish is set to Light or Full, a second request is sent to Gemini with `store: false`, and a local check falls back to the unpolished transcript if the model adds unfamiliar proper nouns, changes the word count too much, or replies as a chatbot."
+          ]
+        },
+        "folder": "",
+        "version": "1.1.3",
+        "reviewed_at": "2026-11-20"
+      }
     },
     {
       "id": "foundry",
@@ -61,7 +124,27 @@
       ],
       "version": "1.0.3",
       "link": "https://github.com/michaelhejazi/loam-mist-trail/tree/v1.0.3",
-      "cover": "cover-large.webp"
+      "cover": "cover-large.webp",
+      "review": {
+        "commit": "652e3d7bc7fe2e6c16c19b05b0fa86f85967162e",
+        "note": {
+          "summary": "Mist Trail is a visual theme for Loam inspired by forest shade, morning fog, and cedar bark, with palettes for both light and dark modes. It includes only CSS token definitions, bundled font files, and preview images, and runs no code.",
+          "touches": [
+            "Nothing: it makes no network requests, reads no conversations or memory, and runs no code in the browser or on the server."
+          ],
+          "may_change": [
+            "Loam's colour palette in light and dark modes.",
+            "The display heading font (sets it to the bundled DM Serif Display).",
+            "Appearance options for agent face shapes and inner marks or initials when selected."
+          ],
+          "worth_knowing": [
+            "The DM Serif Display font files are bundled locally in the plugin folder, so loading the font does not contact any external font service."
+          ]
+        },
+        "folder": "",
+        "version": "1.0.3",
+        "reviewed_at": "2026-11-20"
+      }
     },
     {
       "id": "read-aloud",
@@ -73,7 +156,32 @@
       ],
       "version": "1.1.4",
       "link": "https://github.com/michaelhejazi/loam-read-aloud/tree/v1.1.4",
-      "cover": "cover.webp"
+      "cover": "cover.webp",
+      "review": {
+        "commit": "d7dbf4fcc7b31e07c6e518634ab97791cce78f63",
+        "note": {
+          "summary": "Read aloud adds a speaker button to agent replies and markdown notes in Files so you can listen to them or hear a shorter spoken summary. It runs a local plugin server on your Loam that sends the text you choose to Google Gemini to generate speech and stores the resulting audio temporarily on your server.",
+          "touches": [
+            "generativelanguage.googleapis.com — sends the text of a reply or markdown note (and table or diagram blocks when descriptions are enabled) from your server when you ask to prepare or play audio, using your Google Gemini API key",
+            "Your conversations (read) — reads agent reply text, thread titles, and agent names to prepare speech and summaries",
+            "Your Files notes (read) — reads the markdown note currently open in Files when you ask to read it aloud",
+            "Your server — runs a Node server process that calls Google Gemini, runs ffmpeg to encode MP3 audio, and caches generated audio and table/diagram descriptions in the plugin's private folder for up to 48 hours"
+          ],
+          "may_change": [
+            "Adds a speaker button and player under agent replies, a Read aloud action and duration sheet in Files, and a docked player bar across screens while audio is active",
+            "Adds a voice picker with bundled audio samples to each agent's profile and reading preferences in Settings",
+            "Saves your reading preferences (word thresholds, playback rate, Files voice, and whether tables and diagrams are described) in browser storage on each device, and each agent's voice in its profile or plugin settings"
+          ],
+          "worth_knowing": [
+            "Requires ffmpeg with libmp3lame support installed on the server and a configured Google Gemini API key; without them, the plugin hides its playback controls and reports that audio is unavailable.",
+            "Your Google Gemini API key stays on the server and is never sent to the browser, and text is only sent to Google when you request audio or a sample.",
+            "Generated MP3 files and cached table or diagram descriptions are kept on disk in the plugin's private directory and automatically swept after 48 hours of inactivity."
+          ]
+        },
+        "folder": "",
+        "version": "1.1.4",
+        "reviewed_at": "2026-11-20"
+      }
     },
     {
       "id": "syncthing",
@@ -97,7 +205,26 @@
       ],
       "version": "1.0.3",
       "link": "https://github.com/michaelhejazi/loam-yosemite/tree/v1.0.3",
-      "cover": "cover-large.webp"
+      "cover": "cover-large.webp",
+      "review": {
+        "commit": "972b2b0c906b8a07f7962d34d61fa903b7043237",
+        "note": {
+          "summary": "Yosemite is a light and dark colour theme inspired by granite walls, meadow grasses and national park signage, with headings set in Zilla Slab. It contains only CSS, local font files and preview images, and runs no code.",
+          "touches": [
+            "Nothing outside how Loam looks: no network hosts, conversations, memory or server code."
+          ],
+          "may_change": [
+            "Loam's light and dark colour palette, display heading font (Zilla Slab), and the shape and content of agent faces when chosen in Settings › Appearance."
+          ],
+          "worth_knowing": [
+            "The Zilla Slab font files are bundled inside the plugin and loaded locally rather than fetched from an external font host.",
+            "Includes appearance options for agent face shapes (Signature, Each its own, Circle, Rounded square) and face content (Mark, Initials)."
+          ]
+        },
+        "folder": "",
+        "version": "1.0.3",
+        "reviewed_at": "2026-11-20"
+      }
     }
   ]
 }

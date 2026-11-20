@@ -1,0 +1,27 @@
+{
+  "id": "deep-forest",
+  "link": "https://github.com/michaelhejazi/loam-deep-forest/tree/v1.0.3",
+  "commit": "6f8464b77e15d88c808f3c116d3a59899df494c0",
+  "tag": "v1.0.3",
+  "folder": "",
+  "version": "1.0.3",
+  "reviewed_at": "2026-11-20",
+  "model": "gemini-4-argon",
+  "standards": "a8beac77447e",
+  "note": {
+    "summary": "Deep Forest is a visual theme that dresses Loam in mossy greens and soft canopy colours for both light and dark modes, pairing them with the Fraunces display font for headings. It contains only CSS stylesheets, local font files, and preview images, and runs no code.",
+    "touches": [
+      "Nothing outside appearance: it makes no network requests, reads no conversations or memory, and runs no code in your browser or on your server."
+    ],
+    "may_change": [
+      "Loam's colour palette in light and dark modes through CSS custom properties.",
+      "The display font used for headings (to a bundled copy of Fraunces).",
+      "Appearance options for agent avatar shapes and whether avatars show a mark or initials."
+    ],
+    "worth_knowing": [
+      "The Fraunces font files are bundled directly in the plugin, so your browser does not contact an external font service to load them."
+    ],
+    "changed": [],
+    "since": ""
+  }
+}

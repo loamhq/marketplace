@@ -1,0 +1,99 @@
+# Loam's Market reviewer. Every pull request that adds, moves or removes a
+# listing is reviewed here, with no person in the path. review/README.md
+# says why each line is the way it is; the short of it:
+#
+# - pull_request_target, so it runs for forks, from THIS repository's
+#   default branch: the workflow, the standards and the reviewer's
+#   instructions a request is judged by are never the request's own.
+# - Nothing from the request is checked out or run. Its file list and its
+#   one listing file are read through the API as data.
+# - Three jobs, three reaches: `gate` reads, `review` holds the model key
+#   and no GitHub permission, `decide` holds the write permission and no key.
+#   Only `decide` can comment or merge, and it acts on a closed set of
+#   outcomes in a fixed shape, never on free text.
+name: review
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+    paths: ["listings/**"]
+permissions: {}
+concurrency:
+  # One run per request at a time; a newer push waits rather than cutting a
+  # merge in half. A run whose head has moved on cannot merge (decide.py
+  # merges at the head it reviewed).
+  group: review-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      action: ${{ steps.prepare.outputs.action }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0, the base branch
+        with:
+          persist-credentials: false
+      - id: prepare
+        name: The checks that need no model
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 review/prepare.py github --out "$RUNNER_TEMP/review"
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: gate
+          path: ${{ runner.temp }}/review
+          retention-days: 7
+
+  review:
+    needs: gate
+    if: needs.gate.outputs.action == 'review'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0, the base branch
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          name: gate
+          path: ${{ runner.temp }}/review
+      - name: One fresh model run
+        env:
+          GEMINI_API_KEY: ${{ secrets.LOAM_REVIEW_GEMINI_KEY }}
+        run: python3 review/review.py "$RUNNER_TEMP/review"
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: verdict
+          path: ${{ runner.temp }}/review/verdict.json
+          retention-days: 30
+
+  decide:
+    needs: [gate, review]
+    if: always() && needs.gate.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0, the base branch
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          name: gate
+          path: ${{ runner.temp }}/review
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        if: needs.review.result == 'success'
+        with:
+          name: verdict
+          path: ${{ runner.temp }}/review
+      - name: Comment, and merge on a pass
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 review/decide.py "$RUNNER_TEMP/review"

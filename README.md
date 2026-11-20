@@ -18,21 +18,30 @@ this list.
 
 ## What a listing asks of a plugin
 
-A listing is a pull request to this repository, and it is merged when:
+Everything a listing must meet is on one page, [`review/STANDARDS.md`](review/STANDARDS.md):
+that it is made well, that it does nothing nefarious, and that it meets
+Loam's rules for listing.
 
-- it installs from its link on a current Loam, and does what its description says;
-- what it declares in its `PLUGIN.md` under `touches` is what it does (the
-  hosts it contacts and why, whether it reads or changes conversation
-  records or shared memory, whether it runs code on the server): no host it
-  contacts is missing, and nothing it reaches is wider than it needs;
-- it sends nothing about its owner anywhere they were not told about;
-- its repository is public, and the listing names a tag or a full commit, never a branch;
-- its description is one plain sentence about what it does for the person
-  using it.
+**How a request is reviewed.** Every pull request that adds a listing, moves
+one to a new version or removes one is read by Loam's reviewer, by itself,
+with no person in the path. It reads the plugin's code at the exact commit
+the listing names, the listing, the README and the standards page, and
+never runs the code. Within a few minutes it answers on the pull request:
 
-Being listed is not a security audit, and a later version is not looked at
-until its listing is updated to point at it. Loam itself confirms every
-version, and names anything a new version declares that the last did not.
+- **Listed:** the request merges by itself, and the listing carries
+  **Loam's note**, what the plugin touches, what it may change and what is
+  worth knowing, which every Loam shows on its page beside your README.
+  Every Loam installs exactly the commit that was reviewed; moving the tag
+  later changes nothing until a new version is reviewed.
+- **Not yet:** each point says what to change. Fix it, push again, and the
+  request is reviewed again. There is no limit on how often.
+
+A new version is reviewed the same way, and its note says what it reaches
+that the version before did not. How the reviewer works, and why it is safe
+to let it merge, is in [`review/README.md`](review/README.md). A pass is a
+careful reading against the standards page, not a promise; Loam itself still
+shows what every version declares and asks the owner's yes before
+installing.
 
 ## Asking to be listed
 
@@ -102,7 +111,8 @@ taken off the list, open a pull request that deletes the file.
 written there as the name in `author` and the whole in `creator`, so a Loam
 that reads only a name still lists it), at
 `https://raw.githubusercontent.com/loamhq/marketplace/main/list.json`. It is
-built from `listings/` by `build.py` when a pull request is merged
-(`.github/workflows/list.yml`) and is never edited by hand. `python3 build.py
---check` checks every listing against the rules a Loam applies when it reads
-the list; the workflow runs it on every pull request.
+built from `listings/` and the reviewer's `notes/` by `build.py` and is never
+edited by hand. A listing is in it only when its note is for its exact link
+(the few in `review/kept.json`, listed before the reviewer, stay as they were
+until a new version passes). `python3 build.py --check` checks every listing
+against the rules a Loam applies when it reads the list.
