@@ -1,0 +1,25 @@
+{
+  "id": "foundry",
+  "link": "https://github.com/michaelhejazi/loam-foundry/tree/v1.0.4",
+  "commit": "7ef55095801af3c4c41318768dae85fd65aa19e1",
+  "tag": "v1.0.4",
+  "folder": "",
+  "version": "1.0.4",
+  "reviewed_at": "2026-11-20",
+  "model": "gemini-4-argon",
+  "standards": "a8beac77447e",
+  "note": {
+    "summary": "Foundry is a visual theme for Loam that styles light and dark modes with steel, plaster, and cast-iron colours, sharper corners, and the Big Shoulders Display heading font. It contains only CSS, local font files, and preview images, and runs no code.",
+    "touches": [
+      "Nothing: it makes no network requests, reads no conversations or memory, and runs no code in your browser or on your server."
+    ],
+    "may_change": [
+      "Loam's appearance when chosen in Settings › Appearance: colour palette in light and dark modes, corner rounding, heading font (Big Shoulders Display), and agent face shape options."
+    ],
+    "worth_knowing": [
+      "The Big Shoulders Display font files are bundled inside the plugin (`display-latin.woff2` and `display-latin-ext.woff2`), so loading the font does not contact any external font host."
+    ],
+    "changed": [],
+    "since": ""
+  }
+}
