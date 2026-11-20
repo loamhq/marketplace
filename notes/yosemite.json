@@ -1,10 +1,10 @@
 {
   "id": "yosemite",
-  "link": "https://github.com/michaelhejazi/loam-yosemite/tree/v1.0.3",
-  "commit": "972b2b0c906b8a07f7962d34d61fa903b7043237",
-  "tag": "v1.0.3",
+  "link": "https://github.com/michaelhejazi/loam-yosemite/tree/v1.0.4",
+  "commit": "42b53d73dffe5d199c3570aea10fb4af67b810fe",
+  "tag": "v1.0.4",
   "folder": "",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "reviewed_at": "2026-11-20",
   "model": "gemini-4-argon",
   "standards": "a8beac77447e",
@@ -20,7 +20,9 @@
       "The Zilla Slab font files are bundled inside the plugin and loaded locally rather than fetched from an external font host.",
       "Includes appearance options for agent face shapes (Signature, Each its own, Circle, Rounded square) and face content (Mark, Initials)."
     ],
-    "changed": [],
-    "since": ""
+    "changed": [
+      "Nothing widened in what the plugin reaches; this update adds a changelog to the README and updates the install link to v1.0.4."
+    ],
+    "since": "1.0.3"
   }
 }
