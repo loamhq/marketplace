@@ -1,0 +1,33 @@
+{
+  "id": "syncthing",
+  "link": "https://github.com/michaelhejazi/loam-syncthing/tree/v1.1.0",
+  "commit": "972e427eb242f2dffc5511f291c102ce10f05c5e",
+  "tag": "v1.1.0",
+  "folder": "",
+  "version": "1.1.0",
+  "reviewed_at": "2026-11-20",
+  "model": "gemini-4-argon",
+  "standards": "a8beac77447e",
+  "note": {
+    "summary": "Lets your agents check Syncthing on your server and pair your phone or laptop to sync your Loam vault directly between your devices. The plugin talks only to Syncthing's local control address on 127.0.0.1 using the API key Loam imports from your local Syncthing configuration.",
+    "touches": [
+      "127.0.0.1 (Syncthing's local REST API on this machine, to check status and configure devices and folders)",
+      "Your Syncthing API key, imported by Loam from ~/.local/state/syncthing/config.xml or ~/.config/syncthing/config.xml and handed to the plugin",
+      "Your entire vault, including conversations and shared agent memory, which Syncthing syncs both ways with the devices you pair"
+    ],
+    "may_change": [
+      "Adds devices you ask to pair to your local Syncthing configuration",
+      "Registers your Loam vault folder in Syncthing (with .git excluded in .stignore) and shares it with paired devices",
+      "Any files in your vault, including conversations and memory, when paired devices sync changes back to this machine"
+    ],
+    "worth_knowing": [
+      "Syncthing must already be installed and running as your user on the server, with its GUI bound to 127.0.0.1 or localhost.",
+      "Unpairing a device through the agent stops sharing the vault folder with that device, though the device entry itself stays in Syncthing's known devices list."
+    ],
+    "changed": [
+      "Declares a Syncthing key under keys so Loam imports the API key and local GUI URL from Syncthing's config.xml at install time and supplies them via LOAM_PLUGIN_KEYS, instead of the plugin reading config.xml directly.",
+      "Connects directly to 127.0.0.1 via http.client without following HTTP redirects or environment proxies, and rejects non-loopback control addresses."
+    ],
+    "since": "1.0.3"
+  }
+}
