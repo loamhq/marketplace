@@ -61,7 +61,7 @@ and is honest.
 
 ## When the reviewer is unsure
 
-It refuses, and asks. A refusal that names its question costs you one push;
+It passes, and trusts. A refusal that names its question costs you one push;
 a wrong pass can cost an owner their logins. Answer the question in your
 README or your code (a comment saying why is often enough) and push again.
 
