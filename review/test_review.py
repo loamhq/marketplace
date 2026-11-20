@@ -10,6 +10,7 @@ import json
 import sys
 import tempfile
 from pathlib import Path
+from unittest.mock import patch
 
 sys.dont_write_bytecode = True
 HERE = Path(__file__).resolve().parent
@@ -117,6 +118,30 @@ check("a diff too large to read with the plugin is left out first",
 huge = {"files": [{"path": "a.js", "text": "x" * (limit + 10)}], "update": None}
 check("a plugin too large for the model is refused, saying what to do",
       "more than the reviewing model can read at once" in (refused(prepare.fit, huge) or ""), True)
+
+# -- the previous version of a kept listing --------------------------------------
+old_listing = {"id": "pet", "link": "https://github.com/sam/loam-pet/tree/pet-v1.0.0/pet"}
+new_listing = {"id": "pet", "link": "https://github.com/sam/loam-pet/tree/v2/pet"}
+old_decl, new_decl = {"touches": {}}, {"touches": {"keys": [{"source": {"xml": "gui/apikey"}}]}}
+
+
+class Reader:
+    @staticmethod
+    def added(before, after):
+        return {key: value for key, value in after["touches"].items() if key not in before["touches"]}
+
+
+with patch.object(prepare, "check_public"), patch.object(prepare, "_refs", return_value=REFS), \
+        patch.object(prepare, "loam_reader", return_value=Reader()), \
+        patch.object(prepare, "plugin_at", side_effect=[
+            ({"version": "2.0.0"}, new_decl, [], [], []),
+            ({"version": "1.0.0"}, old_decl, [], [], []),
+        ]):
+    packet, _ = prepare.build_packet(new_listing, None, Path("."), previous_listing=old_listing)
+check("a kept listing is compared to the last released declaration", packet["update"], {
+    "from_version": "1.0.0", "from_commit": A, "declared_before": old_decl,
+    "declares_more_now": new_decl["touches"], "diff": "", "previous_note": None,
+})
 
 # -- the model's answer is data in one shape ---------------------------------------
 good = {"verdict": "pass", "reasons": [], "questions": [], "declaration_matches_code": True,

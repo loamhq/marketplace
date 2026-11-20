@@ -398,7 +398,8 @@ def plugin_at(lp, src: dict, commit: str, folder_path: str, pid: str, version, w
 
 # ---------------------------------------------------------------- the packet
 
-def build_packet(listing: dict, prior_note: dict | None, work: Path) -> tuple[dict, dict]:
+def build_packet(listing: dict, prior_note: dict | None, work: Path,
+                 previous_listing: dict | None = None) -> tuple[dict, dict]:
     """The packet for the model and the facts for the decision. Raises Refuse."""
     pid = listing["id"]
     src = parse_link(listing["link"])
@@ -412,22 +413,30 @@ def build_packet(listing: dict, prior_note: dict | None, work: Path) -> tuple[di
     readme = next((f["text"] for f in texts if f["path"] == readme_name), None)
     facts = scan(texts, decl)
     update = None
-    if prior_note and prior_note.get("commit") and prior_note.get("commit") != commit:
-        psrc = parse_link(prior_note["link"])
+    # A listing kept from before review still has a released version to
+    # compare against. Its previous declaration comes from that release.
+    baseline = prior_note or previous_listing
+    if baseline and (baseline.get("commit") != commit if prior_note
+                     else baseline["link"] != listing["link"]):
+        psrc = parse_link(baseline["link"])
         prefs = refs if (psrc["owner"], psrc["repo"]) == (src["owner"], src["repo"]) \
             else _refs(f"{psrc['owner']}/{psrc['repo']}")
         try:
-            _, _, ppath = pin(psrc, prefs)
+            pcommit, _, ppath = pin(psrc, prefs)
         except Refuse:
+            pcommit = None
             ppath = psrc["path"]
+        pcommit = baseline.get("commit") or pcommit
         try:
-            pman, pdecl, _, ptexts, _ = plugin_at(lp, psrc, prior_note["commit"], ppath, pid, None, work,
-                                                  prior_note.get("version") or prior_note["commit"][:12])
-            update = {"from_version": pman["version"], "from_commit": prior_note["commit"],
+            if pcommit is None:
+                raise Refuse("the previous listing no longer names a released commit")
+            pman, pdecl, _, ptexts, _ = plugin_at(lp, psrc, pcommit, ppath, pid, None, work,
+                                                  baseline.get("version") or pcommit[:12])
+            update = {"from_version": pman["version"], "from_commit": pcommit,
                       "declared_before": pdecl, "declares_more_now": lp.added(pdecl, decl),
-                      "diff": diff_of(ptexts, texts), "previous_note": prior_note.get("note")}
+                      "diff": diff_of(ptexts, texts), "previous_note": baseline.get("note")}
         except Refuse as exc:
-            update = {"from_version": prior_note.get("version"), "from_commit": prior_note["commit"],
+            update = {"from_version": baseline.get("version"), "from_commit": pcommit,
                       "unreadable": str(exc), "previous_note": prior_note.get("note")}
     packet = {
         "listing": listing, "repository": f"{src['owner']}/{src['repo']}", "tag": tag, "commit": commit,
@@ -497,7 +506,7 @@ def github(out: Path) -> dict:
     # No limit on submissions (the owner, 2026-11-19): every push is reviewed.
     key = listing_hash(text)
     work = Path(tempfile.mkdtemp(prefix="review-"))
-    packet, meta = build_packet(listing, prior_note_of(pid), work)
+    packet, meta = build_packet(listing, prior_note_of(pid), work, previous_listing=prior)
     (out / "packet.json").write_text(json.dumps(packet, ensure_ascii=False), encoding="utf-8")
     return {**base, **meta, "listing": key, "action": "review"}
 
