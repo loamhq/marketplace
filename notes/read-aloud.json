@@ -1,32 +1,38 @@
 {
   "id": "read-aloud",
-  "link": "https://github.com/michaelhejazi/loam-read-aloud/tree/v1.1.4",
-  "commit": "d7dbf4fcc7b31e07c6e518634ab97791cce78f63",
-  "tag": "v1.1.4",
+  "link": "https://github.com/michaelhejazi/loam-read-aloud/tree/v1.2.0",
+  "commit": "9d0faf1dc4c131388f6762797ad3d9956761d6f3",
+  "tag": "v1.2.0",
   "folder": "",
-  "version": "1.1.4",
-  "reviewed_at": "2026-11-20",
+  "version": "1.2.0",
+  "reviewed_at": "2026-11-21",
   "model": "gemini-4-argon",
   "standards": "a8beac77447e",
   "note": {
-    "summary": "Read aloud adds a speaker button to agent replies and markdown notes in Files so you can listen to them or hear a shorter spoken summary. It runs a local plugin server on your Loam that sends the text you choose to Google Gemini to generate speech and stores the resulting audio temporarily on your server.",
+    "summary": "Read aloud adds a speaker button to agent replies and markdown notes in Files so you can listen to them or hear a shorter spoken summary. It runs a local plugin server on your Loam that generates and caches speech using Google Gemini or OpenAI when a key is configured, or falls back to your browser's built-in speech synthesis without a key.",
     "touches": [
       "generativelanguage.googleapis.com — sends the text of a reply or markdown note (and table or diagram blocks when descriptions are enabled) from your server when you ask to prepare or play audio, using your Google Gemini API key",
+      "api.openai.com — sends the text of a reply or markdown note (and table or diagram blocks when descriptions are enabled) over HTTPS and WebSockets from your server when an OpenAI API key is configured and no Google key is present",
+      "Browser speech services (browser-managed) — passes reply or note text to your browser's SpeechSynthesis engine when neither a Google nor an OpenAI key is configured, which may use a remote speech service managed by your browser or operating system",
       "Your conversations (read) — reads agent reply text, thread titles, and agent names to prepare speech and summaries",
       "Your Files notes (read) — reads the markdown note currently open in Files when you ask to read it aloud",
-      "Your server — runs a Node server process that calls Google Gemini, runs ffmpeg to encode MP3 audio, and caches generated audio and table/diagram descriptions in the plugin's private folder for up to 48 hours"
+      "Your server — runs a Node server process that calls Google Gemini or OpenAI, runs ffmpeg to encode MP3 audio, and caches generated audio and table/diagram descriptions in the plugin's private folder for up to 48 hours"
     ],
     "may_change": [
       "Adds a speaker button and player under agent replies, a Read aloud action and duration sheet in Files, and a docked player bar across screens while audio is active",
-      "Adds a voice picker with bundled audio samples to each agent's profile and reading preferences in Settings",
+      "Adds a voice picker with bundled audio samples to each agent's profile, reading preferences in Settings, and a guided dialog that can verify and save a Google Gemini API key to your Loam Connections",
       "Saves your reading preferences (word thresholds, playback rate, Files voice, and whether tables and diagrams are described) in browser storage on each device, and each agent's voice in its profile or plugin settings"
     ],
     "worth_knowing": [
-      "Requires ffmpeg with libmp3lame support installed on the server and a configured Google Gemini API key; without them, the plugin hides its playback controls and reports that audio is unavailable.",
-      "Your Google Gemini API key stays on the server and is never sent to the browser, and text is only sent to Google when you request audio or a sample.",
+      "Uses a Google Gemini key first, then an OpenAI key, and falls back to your browser's built-in voice if no key is set; spoken summaries (Brief), table/diagram descriptions, and seeking are only available with a server key and ffmpeg (with libmp3lame) installed on the server.",
+      "Your Google Gemini and OpenAI API keys stay on the server and are never sent to the browser, and text is only sent to the active provider when you request audio or a sample.",
       "Generated MP3 files and cached table or diagram descriptions are kept on disk in the plugin's private directory and automatically swept after 48 hours of inactivity."
     ],
-    "changed": [],
-    "since": ""
+    "changed": [
+      "Now accepts an optional OpenAI API key and contacts api.openai.com (via HTTPS and WebSockets) to generate speech, spoken summaries, and table or diagram descriptions when no Google Gemini key is configured.",
+      "Now falls back to your browser's Web Speech API (speechSynthesis) when neither a Google nor an OpenAI key is present, which may send spoken text to a browser- or OS-managed speech service.",
+      "Adds an in-app guide dialog that can verify and save a Google Gemini API key to Loam's shared Connections store (`PUT /keys/google`)."
+    ],
+    "since": "1.1.4"
   }
 }
