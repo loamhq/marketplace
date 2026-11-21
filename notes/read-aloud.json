@@ -1,10 +1,10 @@
 {
   "id": "read-aloud",
-  "link": "https://github.com/michaelhejazi/loam-read-aloud/tree/v1.2.0",
-  "commit": "9d0faf1dc4c131388f6762797ad3d9956761d6f3",
-  "tag": "v1.2.0",
+  "link": "https://github.com/michaelhejazi/loam-read-aloud/tree/v1.2.1",
+  "commit": "63d2c3d71d641dafca529629f307d13c2cec469a",
+  "tag": "v1.2.1",
   "folder": "",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "reviewed_at": "2026-11-21",
   "model": "gemini-4-argon",
   "standards": "a8beac77447e",
@@ -20,7 +20,7 @@
     ],
     "may_change": [
       "Adds a speaker button and player under agent replies, a Read aloud action and duration sheet in Files, and a docked player bar across screens while audio is active",
-      "Adds a voice picker with bundled audio samples to each agent's profile, reading preferences in Settings, and a guided dialog that can verify and save a Google Gemini API key to your Loam Connections",
+      "Adds a voice picker with bundled audio samples to each agent's profile, reading preferences in Settings, and a guided sheet that can verify and save a Google Gemini API key to your Loam Connections",
       "Saves your reading preferences (word thresholds, playback rate, Files voice, and whether tables and diagrams are described) in browser storage on each device, and each agent's voice in its profile or plugin settings"
     ],
     "worth_knowing": [
@@ -29,10 +29,9 @@
       "Generated MP3 files and cached table or diagram descriptions are kept on disk in the plugin's private directory and automatically swept after 48 hours of inactivity."
     ],
     "changed": [
-      "Now accepts an optional OpenAI API key and contacts api.openai.com (via HTTPS and WebSockets) to generate speech, spoken summaries, and table or diagram descriptions when no Google Gemini key is configured.",
-      "Now falls back to your browser's Web Speech API (speechSynthesis) when neither a Google nor an OpenAI key is present, which may send spoken text to a browser- or OS-managed speech service.",
-      "Adds an in-app guide dialog that can verify and save a Google Gemini API key to Loam's shared Connections store (`PUT /keys/google`)."
+      "No new hosts, permissions, or data access compared to version 1.2.0.",
+      "Updates the Gemini key setup guide to use Loam's shared menu surface and only shows the setup link in Settings when using the browser voice fallback."
     ],
-    "since": "1.1.4"
+    "since": "1.2.0"
   }
 }
