@@ -1,0 +1,53 @@
+{
+  "plugins": {
+    "autumn": {
+      "assets": {
+        "776661936": 0
+      },
+      "downloads": 0
+    },
+    "deep-forest": {
+      "assets": {
+        "776662120": 0
+      },
+      "downloads": 0
+    },
+    "dictation": {
+      "assets": {
+        "776662239": 0
+      },
+      "downloads": 0
+    },
+    "foundry": {
+      "assets": {
+        "776662341": 0
+      },
+      "downloads": 0
+    },
+    "mist-trail": {
+      "assets": {
+        "776662497": 0
+      },
+      "downloads": 0
+    },
+    "read-aloud": {
+      "assets": {
+        "776662608": 0
+      },
+      "downloads": 0
+    },
+    "syncthing": {
+      "assets": {
+        "776662741": 0
+      },
+      "downloads": 0
+    },
+    "yosemite": {
+      "assets": {
+        "776662932": 0
+      },
+      "downloads": 0
+    }
+  },
+  "version": 1
+}
