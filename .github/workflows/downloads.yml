@@ -1,0 +1,31 @@
+name: Market downloads
+on:
+  schedule:
+    - cron: '23 4 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: market-downloads
+  cancel-in-progress: false
+jobs:
+  collect:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: main
+      - name: Collect release metadata
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python3 downloads.py
+          git add stats.json
+          if ! git diff --cached --quiet; then
+            git config user.name loam-marketplace
+            git config user.email marketplace@users.noreply.github.com
+            git commit -m "Update Market download totals"
+            git push origin HEAD:main
+          fi

@@ -116,3 +116,18 @@ edited by hand. A listing is in it only when its note is for its exact link
 (the few in `review/kept.json`, listed before the reviewer, stay as they were
 until a new version passes). `python3 build.py --check` checks every listing
 against the rules a Loam applies when it reads the list.
+
+### Downloads
+
+A listing shows the downloads GitHub has counted for its release files, including
+updates and direct downloads from GitHub. Loam checks the file against the
+reviewed folder on the installing device. If the file is absent or differs,
+the reviewed Git commit supplies the install. Browsing and checking for
+updates leave the count alone. Older clients and Git fallbacks add nothing.
+
+`loam market share` attaches `loam-<id>.tar` to the version's release.
+To list by hand, check out the tag, change into the plugin folder, run
+`git archive --format=tar -o /path/to/loam-<id>.tar HEAD` with your
+plugin ID and an output path outside the checkout, and attach that file to
+the GitHub release before submitting the listing. GitHub supplies the count.
+Once a night the Market publishes the totals in `stats.json`.

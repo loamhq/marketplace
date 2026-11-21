@@ -33,5 +33,9 @@
       "Updates the Gemini key setup guide to use Loam's shared menu surface and only shows the setup link in Settings when using the browser voice fallback."
     ],
     "since": "1.2.0"
+  },
+  "asset": {
+    "tag": "v1.2.1",
+    "sha256": "b7111908950733a63619c13ece15de78ee59a9d0e0d521204ef99d952db769fc"
   }
 }

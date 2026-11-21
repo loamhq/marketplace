@@ -118,6 +118,7 @@ def note_record(decision: dict, verdict: dict) -> dict:
             "tag": decision.get("tag"), "folder": decision.get("folder"), "version": decision.get("version"),
             "reviewed_at": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d"),
             "model": (verdict.get("run") or {}).get("model"), "standards": standards_hash(),
+            **({"asset": decision["asset"]} if decision.get("asset") else {}),
             "note": verdict["note"]}
 
 

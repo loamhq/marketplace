@@ -33,5 +33,9 @@
       "Nothing widened in what the plugin reaches; the Gemini key setup prompt now uses Loam's menu surface and only offers the key link when no server key is configured."
     ],
     "since": "1.2.0"
+  },
+  "asset": {
+    "tag": "v1.2.1",
+    "sha256": "a1251782eba1bf3c704164b2e060a5bff6a03c6c6c8795cc992258ba25b9aaa3"
   }
 }

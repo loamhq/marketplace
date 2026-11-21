@@ -1,5 +1,6 @@
 {
   "version": 1,
+  "stats": "stats.json",
   "plugins": [
     {
       "id": "autumn",
@@ -14,6 +15,10 @@
       "featured": true,
       "cover": "cover-large.webp",
       "cover_dark": "cover-large-dark.webp",
+      "asset": {
+        "tag": "v1.0.3",
+        "sha256": "ad12d078ebe6ebc9d4637ee8d5b08813805abd77418397ca26220be773bb5a53"
+      },
       "review": {
         "commit": "d622f77e57294791b5510922fae0931d73bb8cfe",
         "note": {
@@ -44,6 +49,10 @@
       "version": "1.0.3",
       "link": "https://github.com/michaelhejazi/loam-deep-forest/tree/v1.0.3",
       "cover": "cover-large.webp",
+      "asset": {
+        "tag": "v1.0.3",
+        "sha256": "3657001e646ef4dc598c830e1077ec9542982b5dfef35ba3d46c2eb635992e92"
+      },
       "review": {
         "commit": "6f8464b77e15d88c808f3c116d3a59899df494c0",
         "note": {
@@ -76,6 +85,10 @@
       "version": "1.2.1",
       "link": "https://github.com/michaelhejazi/loam-dictation/tree/v1.2.1",
       "cover": "cover.webp",
+      "asset": {
+        "tag": "v1.2.1",
+        "sha256": "a1251782eba1bf3c704164b2e060a5bff6a03c6c6c8795cc992258ba25b9aaa3"
+      },
       "review": {
         "commit": "fb9c51a4176135d394281e635ec7bff69d96f118",
         "note": {
@@ -120,6 +133,10 @@
       "version": "1.0.4",
       "link": "https://github.com/michaelhejazi/loam-foundry/tree/v1.0.4",
       "cover": "cover-large.webp",
+      "asset": {
+        "tag": "v1.0.4",
+        "sha256": "999621c34da6f013fcc7050189435315d47642b09c8a9e68ec9723ce761970dc"
+      },
       "review": {
         "commit": "7ef55095801af3c4c41318768dae85fd65aa19e1",
         "note": {
@@ -150,6 +167,10 @@
       "version": "1.0.3",
       "link": "https://github.com/michaelhejazi/loam-mist-trail/tree/v1.0.3",
       "cover": "cover-large.webp",
+      "asset": {
+        "tag": "v1.0.3",
+        "sha256": "fef031306849e6574ba3e6ab3912aaeb190a52cb230ca3d97f8606454da8e0b4"
+      },
       "review": {
         "commit": "652e3d7bc7fe2e6c16c19b05b0fa86f85967162e",
         "note": {
@@ -182,6 +203,10 @@
       "version": "1.2.1",
       "link": "https://github.com/michaelhejazi/loam-read-aloud/tree/v1.2.1",
       "cover": "cover.webp",
+      "asset": {
+        "tag": "v1.2.1",
+        "sha256": "b7111908950733a63619c13ece15de78ee59a9d0e0d521204ef99d952db769fc"
+      },
       "review": {
         "commit": "63d2c3d71d641dafca529629f307d13c2cec469a",
         "note": {
@@ -226,6 +251,10 @@
       "version": "1.1.0",
       "link": "https://github.com/michaelhejazi/loam-syncthing/tree/v1.1.0",
       "cover": "cover.webp",
+      "asset": {
+        "tag": "v1.1.0",
+        "sha256": "6d2adefa0945d136e0143fa44efb24b29899b0f469a0d5697e617b39ba3933c0"
+      },
       "review": {
         "commit": "972e427eb242f2dffc5511f291c102ce10f05c5e",
         "note": {
@@ -266,6 +295,10 @@
       "version": "1.0.4",
       "link": "https://github.com/michaelhejazi/loam-yosemite/tree/v1.0.4",
       "cover": "cover-large.webp",
+      "asset": {
+        "tag": "v1.0.4",
+        "sha256": "bc9050ae9cd61427fac7f0b80c596d54e897718ab1272471f7589a2b1e41228c"
+      },
       "review": {
         "commit": "42b53d73dffe5d199c3570aea10fb4af67b810fe",
         "note": {

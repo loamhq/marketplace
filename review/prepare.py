@@ -456,6 +456,10 @@ def build_packet(listing: dict, prior_note: dict | None, work: Path,
     meta = {"id": pid, "commit": commit, "tag": tag, "folder": folder_path, "link": listing["link"],
             "version": manifest["version"], "scan": facts,
             "update_from": update.get("from_version") if update else None}
+    import downloads
+    asset = downloads.release_asset(f"{src['owner']}/{src['repo']}", tag, pid)
+    if asset:
+        meta["asset"] = asset
     return packet, meta
 
 

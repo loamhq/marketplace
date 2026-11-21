@@ -29,5 +29,9 @@
       "Connects directly to 127.0.0.1 via http.client without following HTTP redirects or environment proxies, and rejects non-loopback control addresses."
     ],
     "since": "1.0.3"
+  },
+  "asset": {
+    "tag": "v1.1.0",
+    "sha256": "6d2adefa0945d136e0143fa44efb24b29899b0f469a0d5697e617b39ba3933c0"
   }
 }

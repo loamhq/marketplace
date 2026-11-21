@@ -207,6 +207,8 @@ def review_of(root: Path, pid: str, link: str) -> tuple[dict | None, str | None]
     for field in ("version", "reviewed_at"):
         if _text(note.get(field), 40):
             review[field] = _text(note.get(field), 40)
+    if isinstance(note.get("asset"), dict):
+        review["asset"] = note["asset"]
     return review, None
 
 
@@ -237,10 +239,12 @@ def build(root: Path = HERE, waiting: list | None = None) -> tuple[dict, list[st
                 if waiting is not None:
                     waiting.append(why)
                 continue
+            if "asset" in review:
+                entry["asset"] = review.pop("asset")
             entry["review"] = review
             entries.append(entry)
     entries.sort(key=lambda e: (e["name"].lower(), e["id"]))
-    return {"version": FORMAT, "plugins": entries}, errors
+    return {"version": FORMAT, "stats": "stats.json", "plugins": entries}, errors
 
 
 def text_of(data: dict) -> str:

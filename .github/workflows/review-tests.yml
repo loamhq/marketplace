@@ -1,10 +1,10 @@
 name: review-tests
 on:
   pull_request:
-    paths: ["review/**", "build.py"]
+    paths: ["review/**", "build.py", "downloads.py", "test_downloads.py"]
   push:
     branches: [main]
-    paths: ["review/**", "build.py"]
+    paths: ["review/**", "build.py", "downloads.py", "test_downloads.py"]
 permissions:
   contents: read
 jobs:
@@ -15,3 +15,4 @@ jobs:
         with:
           persist-credentials: false
       - run: python3 review/test_review.py
+      - run: python3 test_downloads.py

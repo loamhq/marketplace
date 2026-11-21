@@ -70,3 +70,8 @@ README or your code (a comment saying why is often enough) and push again.
 A pass is a careful reading by a model against this page, not a promise. A
 plugin runs with the reach its owner gives it. Loam's note is there so the
 owner can decide with their eyes open.
+
+A release may carry the plugin folder as `loam-<id>.tar`. The Market reads
+GitHub’s download total for those files, including updates. A missing file
+does not affect review. The listing request supplies neither a count nor a
+download address.

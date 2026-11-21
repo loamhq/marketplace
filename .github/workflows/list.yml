@@ -6,16 +6,25 @@ on:
     branches: [main]
     paths: ["listings/**", "build.py"]
 permissions:
-  contents: write
+  contents: read
 jobs:
-  list:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
       - name: Check the listings
         run: python3 build.py --check
+  publish:
+    needs: check
+    if: github.event_name == 'push'
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
       - name: Build list.json
-        if: github.event_name == 'push'
         run: |
           python3 build.py
           if ! git diff --quiet list.json; then

@@ -132,3 +132,15 @@ way to see unusual use.
   Nothing is ever added to it, and no pull request can change it.
 - **The tests:** `python3 review/test_review.py`, run by `review-tests.yml`
   on every change to `review/` or `build.py`.
+
+The gate reads GitHub’s asset metadata for the resolved tag. It records the
+fixed-name tar file’s SHA-256 beside the reviewed commit and folder. Neither
+the model nor a maker’s listing supplies these fields. Loam verifies both the
+file checksum and the installed tree against its own reviewed Git checkout.
+
+The downloads workflow runs on a schedule or a manual dispatch on main. It
+reads release metadata and commits only `stats.json`. Each GitHub asset ID
+retains its highest observed counter, including after deletion. Replacement
+assets get new IDs. A failed collection publishes nothing. Stats-only
+commits do not match the reviewer’s listing path filter. Pull-request checks
+have read permission and the review gate accepts a single listing file.

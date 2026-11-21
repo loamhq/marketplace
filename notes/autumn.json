@@ -21,5 +21,9 @@
     ],
     "changed": [],
     "since": ""
+  },
+  "asset": {
+    "tag": "v1.0.3",
+    "sha256": "ad12d078ebe6ebc9d4637ee8d5b08813805abd77418397ca26220be773bb5a53"
   }
 }

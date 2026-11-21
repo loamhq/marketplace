@@ -24,5 +24,9 @@
       "Nothing widened in what the plugin reaches; this update adds a changelog to the README and updates the install link to v1.0.4."
     ],
     "since": "1.0.3"
+  },
+  "asset": {
+    "tag": "v1.0.4",
+    "sha256": "bc9050ae9cd61427fac7f0b80c596d54e897718ab1272471f7589a2b1e41228c"
   }
 }
