@@ -2,15 +2,15 @@
   "plugins": {
     "autumn": {
       "assets": {
-        "776661936": 0
+        "776661936": 2
       },
-      "downloads": 0
+      "downloads": 2
     },
     "deep-forest": {
       "assets": {
-        "776662120": 0
+        "776662120": 1
       },
-      "downloads": 0
+      "downloads": 1
     },
     "dictation": {
       "assets": {
@@ -20,15 +20,15 @@
     },
     "foundry": {
       "assets": {
-        "776662341": 0
+        "776662341": 2
       },
-      "downloads": 0
+      "downloads": 2
     },
     "mist-trail": {
       "assets": {
-        "776662497": 0
+        "776662497": 1
       },
-      "downloads": 0
+      "downloads": 1
     },
     "read-aloud": {
       "assets": {
@@ -38,15 +38,15 @@
     },
     "syncthing": {
       "assets": {
-        "776662741": 0
+        "776662741": 1
       },
-      "downloads": 0
+      "downloads": 1
     },
     "yosemite": {
       "assets": {
-        "776662932": 0
+        "776662932": 1
       },
-      "downloads": 0
+      "downloads": 1
     }
   },
   "version": 1
