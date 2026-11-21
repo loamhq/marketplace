@@ -1,0 +1,36 @@
+{
+  "id": "garden",
+  "link": "https://github.com/loamhq/garden/tree/v0.1.1/garden",
+  "commit": "f157bba6cf8a7d353dc1713b1786d1f4fddc195b",
+  "tag": "v0.1.1",
+  "folder": "garden",
+  "version": "0.1.1",
+  "reviewed_at": "2026-11-21",
+  "model": "gemini-4-argon",
+  "standards": "ba144bb4b4a1",
+  "asset": {
+    "tag": "v0.1.1",
+    "sha256": "50b9c6e549c713cf95beba7ca7b6881f10062caad7fdbe37f187d3eda8a8189f"
+  },
+  "note": {
+    "summary": "Garden turns your Loam activity into a 3D floating island where trees, shrubs, flowers and landmarks grow as you and your agents work. It runs a local server to read activity summaries from Loam and gives your persona agents a tool to suggest specific next steps beside your plants.",
+    "touches": [
+      "Runs a local Python server and an MCP tool for persona agents.",
+      "Reads Loam activity summaries (facts) for agents, projects, files, chats, apps, local plugins, installation date and public work.",
+      "Through Loam's public-work fact reader, checks api.github.com and raw.githubusercontent.com using your chosen GitHub login for public Market listings, download totals, issues and merged pull requests; the plugin code itself makes no external network requests.",
+      "Reads its own plugin settings and writes growth history and agent ideas to its private server folder."
+    ],
+    "may_change": [
+      "Adds the Garden app and an island icon in Apps.",
+      "During your first two weeks, can show a dismissible update line in Chats, controlled by a plugin setting.",
+      "Gives persona agents a prompt and the garden_idea tool to leave or withdraw one suggested draft per plant kind, which opens in the chat composer only when you tap it.",
+      "Caches compact summary counts in plugin settings and temporary draft text in browser sessionStorage."
+    ],
+    "worth_knowing": [
+      "Bundled three.js r160 source modules are served locally from assets/three with no external CDN.",
+      "Only counts, names, paths and identifiers from Loam's fact summaries are used; chat text and file contents are not read by the island model."
+    ],
+    "changed": [],
+    "since": ""
+  }
+}
