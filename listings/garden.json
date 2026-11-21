@@ -1,0 +1,12 @@
+{
+  "id": "garden",
+  "name": "Garden",
+  "description": "See what you and your agents have made growing together on a little island.",
+  "author": "Loam HQ",
+  "kind": [
+    "app",
+    "extension"
+  ],
+  "version": "0.1.1",
+  "link": "https://github.com/loamhq/garden/tree/v0.1.1/garden"
+}
