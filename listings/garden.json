@@ -8,5 +8,6 @@
     "extension"
   ],
   "version": "0.1.1",
-  "link": "https://github.com/loamhq/garden/tree/v0.1.1/garden"
+  "link": "https://github.com/loamhq/garden/tree/v0.1.1/garden",
+  "readme": "README.md"
 }
