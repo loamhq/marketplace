@@ -331,6 +331,13 @@ SECRETS = re.compile(r"credentials|oauth|access_token|refresh_token|api[_-]?key|
 ADDRESSED = re.compile(r"\b(?:reviewer|reviewing (?:model|agent|ai)|language model|LLM|AI (?:review|assistant|model)|"
                        r"ignore (?:all |any |the |your |previous |prior )|pre-?approved|system prompt|"
                        r"you must (?:approve|pass)|output (?:a )?pass|verdict)\b", re.I)
+# A standalone JS regex matching a first-person model introduction contains a
+# role noun as data. Keep the full source in the review packet. Only this
+# closed grammar qualifies, so additional prose on the line is still scanned.
+ROLE_NOUN = r"(?:ai|assistant|language model|llm)"
+MODEL_INTRO_PATTERN = re.compile(
+    r"\s*/\^as an? \((?:\?:)?" + ROLE_NOUN + r"(?:\|" + ROLE_NOUN + r")*\)\\b/i?,?\s*", re.I)
+
 SAFE_HOSTS = {"www.w3.org", "w3.org", "schemas.openxmlformats.org", "purl.org", "json-schema.org"}
 
 
@@ -354,7 +361,8 @@ def scan(texts: list[dict], decl: dict) -> dict:
                     dynamic.append(f"{where}: {line.strip()[:160]}")
                 if SECRETS.search(line):
                     secrets.append(f"{where}: {line.strip()[:160]}")
-            if ADDRESSED.search(line):
+            if ADDRESSED.search(line) and not (
+                    f["path"].endswith((".js", ".mjs", ".cjs")) and MODEL_INTRO_PATTERN.fullmatch(line)):
                 addressed.append(f"{where}: {line.strip()[:200]}")
     return {
         "hosts_in_code": [{"host": h, "declared": h in declared, "at": at[:5]} for h, at in sorted(hosts.items())],
