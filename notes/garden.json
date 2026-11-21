@@ -13,22 +13,21 @@
     "sha256": "50b9c6e549c713cf95beba7ca7b6881f10062caad7fdbe37f187d3eda8a8189f"
   },
   "note": {
-    "summary": "Garden turns your Loam activity into a 3D floating island where trees, shrubs, flowers and landmarks grow as you and your agents work. It runs a local server to read activity summaries from Loam and gives your persona agents a tool to suggest specific next steps beside your plants.",
+    "summary": "Garden turns activity in your Loam into a miniature 3D island you can spin, zoom and tap to explore. It reads activity counts and names through Loam's facts reader, keeps growth history in its own private folder on your server, and lets your agents leave one suggested idea per plant kind.",
     "touches": [
-      "Runs a local Python server and an MCP tool for persona agents.",
-      "Reads Loam activity summaries (facts) for agents, projects, files, chats, apps, local plugins, installation date and public work.",
-      "Through Loam's public-work fact reader, checks api.github.com and raw.githubusercontent.com using your chosen GitHub login for public Market listings, download totals, issues and merged pull requests; the plugin code itself makes no external network requests.",
-      "Reads its own plugin settings and writes growth history and agent ideas to its private server folder."
+      "Activity summaries from Loam (names and counts of your agents, projects, files, chats, apps, local plugins, installation start date, and public work; never chat text or file contents).",
+      "api.github.com and raw.githubusercontent.com through Loam's public-work fact reader when you have configured a GitHub login, to check your public Market listings, download totals, issues and merged pull requests.",
+      "Runs a local Python HTTP server and an agent tool on your server, storing growth observations and agent suggestions in its private plugin directory."
     ],
     "may_change": [
       "Adds the Garden app and an island icon in Apps.",
-      "During your first two weeks, can show a dismissible update line in Chats, controlled by a plugin setting.",
-      "Gives persona agents a prompt and the garden_idea tool to leave or withdraw one suggested draft per plant kind, which opens in the chat composer only when you tap it.",
-      "Caches compact summary counts in plugin settings and temporary draft text in browser sessionStorage."
+      "During your first two weeks, shows a compact update bar in Chats when your garden grows or an agent leaves an idea (you can hide it for the day or turn it off in settings).",
+      "Gives persona agents a prompt and a tool (`garden_idea`) to post, replace or withdraw one suggestion per plant kind; tapping a suggestion opens an editable chat draft without sending it.",
+      "Saves a compact summary of counts in its plugin settings so the Chats bar can appear quickly on load."
     ],
     "worth_knowing": [
-      "Bundled three.js r160 source modules are served locally from assets/three with no external CDN.",
-      "Only counts, names, paths and identifiers from Loam's fact summaries are used; chat text and file contents are not read by the island model."
+      "Its copy of three.js (r160) is included as readable source modules and served locally with a strict Content-Security-Policy; it loads nothing from external CDNs.",
+      "If WebGL is unavailable in your browser, it falls back to opening the 'What grows here' field guide so you can still browse your counts and agent ideas."
     ],
     "changed": [],
     "since": ""
