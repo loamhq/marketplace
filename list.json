@@ -280,19 +280,19 @@
       "kind": [
         "extension"
       ],
-      "version": "1.2.2",
-      "link": "https://github.com/michaelhejazi/loam-read-aloud/tree/v1.2.2",
+      "version": "1.2.3",
+      "link": "https://github.com/michaelhejazi/loam-read-aloud/tree/v1.2.3",
       "cover": "cover.webp",
       "review": {
-        "commit": "d08acf0a7ef10f8adde753926ad6bbf7c831cf33",
+        "commit": "3db52bbc2935b4b7c50498b54803249cc50a269d",
         "note": {
           "summary": "Read aloud adds a speaker button to agent replies and markdown notes in Files so you can listen to them or hear a shorter spoken summary. It runs a local plugin server on your Loam that generates and caches speech using Google Gemini or OpenAI when a key is configured, or falls back to your browser's built-in speech synthesis without a key.",
           "touches": [
             "generativelanguage.googleapis.com — sends the text of a reply or markdown note (and table or diagram blocks when descriptions are enabled) from your server when you ask to prepare or play audio, using your Google Gemini API key",
             "api.openai.com — sends the text of a reply or markdown note (and table or diagram blocks when descriptions are enabled) over HTTPS and WebSockets from your server when an OpenAI API key is configured and no Google key is present",
             "Browser speech services (browser-managed) — passes reply or note text to your browser's SpeechSynthesis engine when neither a Google nor an OpenAI key is configured, which may use a remote speech service managed by your browser or operating system",
-            "Your conversations (read) — reads agent reply text, thread titles, and agent names to prepare speech and summaries",
-            "Your Files notes (read) — reads the markdown note currently open in Files when you ask to read it aloud",
+            "Your conversations — reads agent reply text, thread titles, and agent names to prepare speech and summaries",
+            "Your Files notes — reads the markdown note currently open in Files when you ask to read it aloud",
             "Your server — runs a Node server process that calls Google Gemini or OpenAI, runs ffmpeg to encode MP3 audio, and caches generated audio and table/diagram descriptions in the plugin's private folder for up to 48 hours"
           ],
           "may_change": [
@@ -306,13 +306,12 @@
             "Generated MP3 files and cached table or diagram descriptions are kept on disk in the plugin's private directory and automatically swept after 48 hours of inactivity."
           ],
           "changed": [
-            "No new hosts, permissions, or data access compared to version 1.2.1.",
-            "Replaces the SVG plugin icon with a WebP icon and adds a cover image."
+            "Nothing widened in what the plugin reaches; this release only updates the version number and install link to 1.2.3."
           ],
-          "since": "1.2.1"
+          "since": "1.2.2"
         },
         "folder": "",
-        "version": "1.2.2",
+        "version": "1.2.3",
         "reviewed_at": "2026-11-22"
       }
     },
