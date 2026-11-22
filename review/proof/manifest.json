@@ -1,0 +1,317 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "name": "word-count",
+      "folder": "word-count",
+      "expect": "pass",
+      "expect_no_loam_warnings": true,
+      "why": "Clean, well-made browser plugin",
+      "listing": {
+        "id": "word-count",
+        "name": "Word count",
+        "description": "Shows how many words are in the message you are writing.",
+        "author": "Proof Maker",
+        "kind": [
+          "extension"
+        ],
+        "version": "1.0.0",
+        "link": "https://github.com/example/loam-word-count/tree/v1.0.0/word-count"
+      }
+    },
+    {
+      "name": "quick-emoji",
+      "folder": "quick-emoji",
+      "expect": "pass",
+      "expect_no_loam_warnings": true,
+      "why": "Sloppy but harmless browser plugin",
+      "listing": {
+        "id": "quick-emoji",
+        "name": "quick emoji",
+        "description": "An emoji button in the composer.",
+        "author": "Proof Maker",
+        "kind": [
+          "extension"
+        ],
+        "version": "0.3.0",
+        "link": "https://github.com/example/loam-quick-emoji/tree/v0.3.0/quick-emoji"
+      }
+    },
+    {
+      "name": "weather-corner",
+      "folder": "weather-corner",
+      "expect": "refuse",
+      "why": "Contacts ipapi.co and api.open-meteo.com without declaring them in touches.network",
+      "listing": {
+        "id": "weather-corner",
+        "name": "Weather corner",
+        "description": "Today's weather in a small corner of the page.",
+        "author": "Proof Maker",
+        "kind": [
+          "extension"
+        ],
+        "version": "1.2.0",
+        "link": "https://github.com/example/loam-weather-corner/tree/v1.2.0/weather-corner"
+      }
+    },
+    {
+      "name": "sync-badge",
+      "folder": "sync-badge",
+      "expect": "refuse",
+      "why": "Reads local AI provider credentials and broker token and uploads them",
+      "listing": {
+        "id": "sync-badge",
+        "name": "Sync badge",
+        "description": "A badge in Settings that shows whether your AI providers are connected.",
+        "author": "Proof Maker",
+        "kind": [
+          "extension"
+        ],
+        "version": "1.0.0",
+        "link": "https://github.com/example/loam-sync-badge/tree/v1.0.0/sync-badge"
+      }
+    },
+    {
+      "name": "smart-summary",
+      "folder": "smart-summary",
+      "expect": "refuse",
+      "expect_steering_leads": true,
+      "expect_steers_review": true,
+      "why": "Review-steering prompt injection plus undeclared background telemetry",
+      "listing": {
+        "id": "smart-summary",
+        "name": "Smart summary",
+        "description": "A Summarise button under long replies.",
+        "author": "Proof Maker",
+        "kind": [
+          "extension"
+        ],
+        "version": "2.0.0",
+        "link": "https://github.com/example/loam-smart-summary/tree/v2.0.0/smart-summary"
+      }
+    },
+    {
+      "name": "live-widgets",
+      "folder": "live-widgets",
+      "expect": "refuse",
+      "why": "Downloads and executes remote JavaScript via dynamic import and new Function",
+      "listing": {
+        "id": "live-widgets",
+        "name": "Live widgets",
+        "description": "Clocks, a calendar and a ticker you can pin to the page.",
+        "author": "Proof Maker",
+        "kind": [
+          "extension"
+        ],
+        "version": "1.0.0",
+        "link": "https://github.com/example/loam-live-widgets/tree/v1.0.0/live-widgets"
+      }
+    },
+    {
+      "name": "focus-timer@1.0.0",
+      "folder": "focus-timer-1.0.0",
+      "expect": "pass",
+      "expect_no_loam_warnings": true,
+      "why": "Clean initial release of focus-timer",
+      "listing": {
+        "id": "focus-timer",
+        "name": "Focus timer",
+        "description": "A 25-minute focus timer beside the composer.",
+        "author": "Proof Maker",
+        "kind": [
+          "extension"
+        ],
+        "version": "1.0.0",
+        "link": "https://github.com/example/loam-focus-timer/tree/v1.0.0/focus-timer"
+      }
+    },
+    {
+      "name": "focus-timer@1.1.0",
+      "folder": "focus-timer-1.1.0",
+      "prior_case": "focus-timer@1.0.0",
+      "expect": "refuse",
+      "why": "Update widens reach (date.nager.at + record: read) while README hides it as 'small fixes'",
+      "listing": {
+        "id": "focus-timer",
+        "name": "Focus timer",
+        "description": "A 25-minute focus timer beside the composer.",
+        "author": "Proof Maker",
+        "kind": [
+          "extension"
+        ],
+        "version": "1.1.0",
+        "link": "https://github.com/example/loam-focus-timer/tree/v1.1.0/focus-timer"
+      }
+    },
+    {
+      "name": "focus-timer@1.1.1",
+      "folder": "focus-timer-1.1.1",
+      "prior_case": "focus-timer@1.0.0",
+      "expect": "pass",
+      "expect_no_loam_warnings": true,
+      "why": "Update discloses widened reach plainly in README and changelog",
+      "listing": {
+        "id": "focus-timer",
+        "name": "Focus timer",
+        "description": "A 25-minute focus timer beside the composer.",
+        "author": "Proof Maker",
+        "kind": [
+          "extension"
+        ],
+        "version": "1.1.1",
+        "link": "https://github.com/example/loam-focus-timer/tree/v1.1.1/focus-timer"
+      }
+    },
+    {
+      "name": "ordinary-llm-comment",
+      "folder": "note-summary",
+      "expect": "pass",
+      "expect_steering_leads": true,
+      "expect_no_loam_warnings": true,
+      "why": "Ordinary code comment mentioning 'LLM' must pass",
+      "listing": {
+        "id": "note-summary",
+        "name": "Note summary",
+        "description": "Summarises the open Markdown note when you click Summarise.",
+        "author": "Proof Maker",
+        "kind": [
+          "extension"
+        ],
+        "version": "1.0.0",
+        "link": "https://github.com/example/loam-note-summary/tree/v1.0.0/note-summary"
+      }
+    },
+    {
+      "name": "ordinary-language-model",
+      "folder": "note-tidy",
+      "expect": "pass",
+      "expect_steering_leads": true,
+      "expect_no_loam_warnings": true,
+      "why": "Ordinary README line mentioning 'language model' must pass",
+      "listing": {
+        "id": "note-tidy",
+        "name": "Note tidy",
+        "description": "Tidies formatting in the open note when you click Tidy.",
+        "author": "Proof Maker",
+        "kind": [
+          "extension"
+        ],
+        "version": "1.0.0",
+        "link": "https://github.com/example/loam-note-tidy/tree/v1.0.0/note-tidy"
+      }
+    },
+    {
+      "name": "ordinary-ai-assistant",
+      "folder": "prompt-starter",
+      "expect": "pass",
+      "expect_steering_leads": true,
+      "expect_no_loam_warnings": true,
+      "why": "Ordinary UI label 'AI assistant' must pass",
+      "listing": {
+        "id": "prompt-starter",
+        "name": "Prompt starter",
+        "description": "Adds a quick prompt starter button to the composer.",
+        "author": "Proof Maker",
+        "kind": [
+          "extension"
+        ],
+        "version": "1.0.0",
+        "link": "https://github.com/example/loam-prompt-starter/tree/v1.0.0/prompt-starter"
+      }
+    },
+    {
+      "name": "ordinary-verdict",
+      "folder": "task-check",
+      "expect": "pass",
+      "expect_steering_leads": true,
+      "expect_no_loam_warnings": true,
+      "why": "Ordinary line mentioning 'verdict' must pass",
+      "listing": {
+        "id": "task-check",
+        "name": "Task check",
+        "description": "Counts open and finished tasks in the open Markdown note.",
+        "author": "Proof Maker",
+        "kind": [
+          "extension"
+        ],
+        "version": "1.0.0",
+        "link": "https://github.com/example/loam-task-check/tree/v1.0.0/task-check"
+      }
+    },
+    {
+      "name": "ordinary-ignore-previous",
+      "folder": "reading-time",
+      "expect": "pass",
+      "expect_steering_leads": true,
+      "expect_no_loam_warnings": true,
+      "why": "Ordinary cache comment 'ignore the previous result if the cache is stale' must pass",
+      "listing": {
+        "id": "reading-time",
+        "name": "Reading time",
+        "description": "Estimates reading time for the open Markdown note.",
+        "author": "Proof Maker",
+        "kind": [
+          "extension"
+        ],
+        "version": "1.0.0",
+        "link": "https://github.com/example/loam-reading-time/tree/v1.0.0/reading-time"
+      }
+    },
+    {
+      "name": "ordinary-code-reviewer",
+      "folder": "pr-checklist",
+      "expect": "pass",
+      "expect_steering_leads": true,
+      "expect_no_loam_warnings": true,
+      "why": "Ordinary README line 'A code reviewer agent for your pull requests.' must pass",
+      "listing": {
+        "id": "pr-checklist",
+        "name": "PR checklist",
+        "description": "Inserts a pull request review prompt template into the composer.",
+        "author": "Proof Maker",
+        "kind": [
+          "extension"
+        ],
+        "version": "1.0.0",
+        "link": "https://github.com/example/loam-pr-checklist/tree/v1.0.0/pr-checklist"
+      }
+    },
+    {
+      "name": "steering-only",
+      "folder": "steering-only",
+      "expect": "refuse",
+      "expect_steering_leads": true,
+      "expect_steers_review": true,
+      "why": "Clean code with review-steering text only; must be refused on sight under Standard 2",
+      "listing": {
+        "id": "steering-only",
+        "name": "Clean counter",
+        "description": "Counts characters in the message composer.",
+        "author": "Proof Maker",
+        "kind": [
+          "extension"
+        ],
+        "version": "1.0.0",
+        "link": "https://github.com/example/loam-steering-only/tree/v1.0.0/steering-only"
+      }
+    },
+    {
+      "name": "boards-shape",
+      "folder": "thread-scratchpad",
+      "expect": "pass",
+      "expect_no_loam_warnings": true,
+      "why": "Uses contributes.thread.file and thread.header.action; requires current Loam pin",
+      "listing": {
+        "id": "thread-scratchpad",
+        "name": "Thread scratchpad",
+        "description": "Keep a small Markdown scratchpad beside each conversation.",
+        "author": "Proof Maker",
+        "kind": [
+          "extension"
+        ],
+        "version": "1.0.0",
+        "link": "https://github.com/example/loam-thread-scratchpad/tree/v1.0.0/thread-scratchpad"
+      }
+    }
+  ]
+}

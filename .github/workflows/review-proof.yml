@@ -1,0 +1,81 @@
+# Runs the reviewer proof set through the real model and decide logic on every
+# change to what the reviewer is (review/**, build.py, and the reviewer
+# workflows).
+#
+# Security: triggers on `pull_request` (never `pull_request_target`) and guards
+# that the PR branch belongs to this repository, so a fork pull request can
+# never reach LOAM_REVIEW_GEMINI_KEY. `proof` holds read-only GitHub access.
+name: review-proof
+on:
+  pull_request:
+    paths:
+      - "review/**"
+      - "build.py"
+      - ".github/workflows/review.yml"
+      - ".github/workflows/review-tests.yml"
+      - ".github/workflows/review-proof.yml"
+      - ".github/workflows/loam-pin.yml"
+  push:
+    branches: [main]
+    paths:
+      - "review/**"
+      - "build.py"
+      - ".github/workflows/review.yml"
+      - ".github/workflows/review-tests.yml"
+      - ".github/workflows/review-proof.yml"
+      - ".github/workflows/loam-pin.yml"
+  workflow_dispatch:
+permissions: {}
+concurrency:
+  group: review-proof-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  fork-blocked:
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Fork pull requests cannot run the live proof set
+        run: |
+          echo "::error::Fork pull requests changing the reviewer cannot run the live model proof set (the model key is never exposed to forks). Test reviewer changes from a branch of this repository."
+          exit 1
+
+  proof:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      checks: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - id: dedupe
+        if: github.event_name == 'push'
+        name: Check if merged PR already proved this exact reviewer tree
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 review/proof_dedupe.py >> "$GITHUB_OUTPUT"
+      - name: Offline unit and manifest checks
+        if: steps.dedupe.outputs.skip != 'true'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python3 review/test_review.py
+          python3 test_downloads.py
+          python3 review/proof.py --offline-only
+      - name: Run full proof set through the real model and decide logic
+        if: steps.dedupe.outputs.skip != 'true'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GEMINI_API_KEY: ${{ secrets.LOAM_REVIEW_GEMINI_KEY }}
+        run: python3 review/proof.py --out "$RUNNER_TEMP/proof-report.json" --summary "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        if: always() && steps.dedupe.outputs.skip != 'true'
+        with:
+          name: proof-report
+          path: ${{ runner.temp }}/proof-report.json
+          retention-days: 30

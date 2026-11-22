@@ -1,0 +1,160 @@
+# Safety-net Loam release follower for review/config.json.
+#
+# Loam's release path opens and merges a pin-update PR immediately when a Loam
+# release is cut; this workflow catches any Loam release tag pushed outside
+# that path (or dispatched by hand). Separate from review.yml so the privileged
+# listing reviewer gains no reach.
+name: loam-pin
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Optional Loam release tag (x.y.z); defaults to newest release"
+        required: false
+        default: ""
+permissions: {}
+concurrency:
+  group: loam-pin
+  cancel-in-progress: false
+jobs:
+  check:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    outputs:
+      changed: ${{ steps.resolve.outputs.changed }}
+      version: ${{ steps.resolve.outputs.version }}
+      commit: ${{ steps.resolve.outputs.commit }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+      - id: resolve
+        name: Check latest Loam release tag
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          TARGET_VERSION: ${{ inputs.version }}
+        run: |
+          if [ -n "$TARGET_VERSION" ]; then
+            python3 review/loam_pin.py apply --version "$TARGET_VERSION"
+          else
+            python3 review/loam_pin.py apply
+          fi
+      - name: Offline tests and proof manifests against the new Loam release
+        if: steps.resolve.outputs.changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python3 review/test_review.py
+          python3 test_downloads.py
+          python3 review/proof.py --offline-only
+
+  proof:
+    needs: check
+    if: needs.check.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+      - name: Pin review/config.json to resolved release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PIN_VERSION: ${{ needs.check.outputs.version }}
+          PIN_COMMIT: ${{ needs.check.outputs.commit }}
+        run: python3 review/loam_pin.py apply --version "$PIN_VERSION" --commit "$PIN_COMMIT"
+      - name: Run full proof set against the new Loam release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GEMINI_API_KEY: ${{ secrets.LOAM_REVIEW_GEMINI_KEY }}
+        run: python3 review/proof.py --out "$RUNNER_TEMP/proof-report.json" --summary "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        if: always()
+        with:
+          name: loam-pin-proof-report
+          path: ${{ runner.temp }}/proof-report.json
+          retention-days: 30
+
+  publish:
+    needs: [check, proof]
+    if: needs.check.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          ref: main
+      - name: Commit and push updated review/config.json
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PIN_VERSION: ${{ needs.check.outputs.version }}
+          PIN_COMMIT: ${{ needs.check.outputs.commit }}
+        run: |
+          git config user.name "loam-marketplace"
+          git config user.email "marketplace@users.noreply.github.com"
+          for attempt in 1 2 3 4; do
+            git fetch -q origin main
+            git reset -q --hard origin/main
+            python3 review/loam_pin.py apply --version "$PIN_VERSION" --commit "$PIN_COMMIT"
+            if git diff --quiet review/config.json; then
+              exit 0
+            fi
+            git add review/config.json
+            git commit -q -m "Pin reviewer Loam to $PIN_VERSION (${PIN_COMMIT:0:12})"
+            if git push -q origin HEAD:main; then
+              exit 0
+            fi
+            sleep $((attempt * 3))
+          done
+          exit 1
+
+  report-failure:
+    needs: [check, proof]
+    if: always() && (needs.check.result == 'failure' || needs.proof.result == 'failure') && needs.check.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+      - name: Open or update failure issue
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PIN_VERSION: ${{ needs.check.outputs.version }}
+          PIN_COMMIT: ${{ needs.check.outputs.commit }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          CHECK_RESULT: ${{ needs.check.result }}
+          PROOF_RESULT: ${{ needs.proof.result }}
+        run: |
+          python3 - <<'PY'
+          import os, sys
+          sys.path.insert(0, "review")
+          import prepare
+          repo = os.environ["GITHUB_REPOSITORY"]
+          ver = os.environ["PIN_VERSION"]
+          sha = os.environ["PIN_COMMIT"]
+          title = f"Reviewer Loam pin move to {ver} failed"
+          body = (
+              f"Moving `review/config.json` to Loam `{ver}` (`{sha}`) did not pass and was not pushed to `main`.\n\n"
+              f"- `check`: `{os.environ['CHECK_RESULT']}`\n"
+              f"- `proof`: `{os.environ['PROOF_RESULT']}`\n"
+              f"- Run: {os.environ['RUN_URL']}\n"
+          )
+          existing = prepare.api(f"/repos/{repo}/issues?state=open&per_page=100") or []
+          match = next((i for i in existing if i.get("title") == title and "pull_request" not in i), None)
+          if match:
+              prepare.api(f"/repos/{repo}/issues/{match['number']}/comments", "POST", {"body": body})
+          else:
+              prepare.api(f"/repos/{repo}/issues", "POST", {"title": title, "body": body})
+          PY

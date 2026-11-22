@@ -45,10 +45,13 @@ SCHEMA = {
             "worth_knowing": LIST, "changed": LIST, "since": {"type": "STRING"}},
             "required": ["summary", "touches", "may_change", "worth_knowing", "changed"]},
         "declaration_matches_code": {"type": "BOOLEAN"},
+        "steering_lead_rulings": {"type": "ARRAY", "items": {"type": "OBJECT", "properties": {
+            "at": {"type": "STRING"}, "steers_review": {"type": "BOOLEAN"}, "why": {"type": "STRING"}},
+            "required": ["at", "steers_review", "why"]}},
     },
-    "required": ["verdict", "reasons", "questions", "note", "declaration_matches_code"],
+    "required": ["verdict", "reasons", "questions", "note", "declaration_matches_code", "steering_lead_rulings"],
 }
-TEXT_MAX, ITEM_MAX, ITEMS_MAX = 600, 400, 8
+TEXT_MAX, ITEM_MAX, ITEMS_MAX, LEADS_MAX = 600, 400, 8, 40
 
 
 def instructions() -> str:
@@ -91,12 +94,24 @@ def shape(raw: dict) -> dict:
     for k in ("touches", "may_change", "worth_knowing", "changed"):
         out_note[k] = items(note.get(k) or [])
     out_note["since"] = text(note.get("since") or "", 40)
+    raw_rulings = raw.get("steering_lead_rulings")
+    if not isinstance(raw_rulings, list):
+        raise ValueError("steering_lead_rulings is not a list")
+    rulings = []
+    for r in raw_rulings[:LEADS_MAX]:
+        if not isinstance(r, dict) or not isinstance(r.get("steers_review"), bool):
+            raise ValueError("a steering lead ruling is malformed")
+        rulings.append({"at": text(r.get("at", ""), 200),
+                        "steers_review": r["steers_review"],
+                        "why": text(r.get("why", ""), ITEM_MAX)})
     out = {"verdict": raw["verdict"], "reasons": reasons, "questions": items(raw.get("questions") or []),
-           "note": out_note, "declaration_matches_code": raw.get("declaration_matches_code") is True}
-    if out["verdict"] == "pass" and (out["questions"] or reasons or not out["declaration_matches_code"]):
-        # A pass that carries a question, a reason or a mismatch is not a pass.
+           "note": out_note, "declaration_matches_code": raw.get("declaration_matches_code") is True,
+           "steering_lead_rulings": rulings}
+    steered = any(r["steers_review"] for r in rulings)
+    if out["verdict"] == "pass" and (out["questions"] or reasons or not out["declaration_matches_code"] or steered):
+        # A pass that carries a question, a reason, a mismatch or a steering ruling is not a pass.
         out["verdict"] = "refuse"
-        out["overruled"] = "the answer said pass but also named a problem or a question"
+        out["overruled"] = "the answer said pass but also named a problem, a question or steering text"
     if not out_note["summary"]:
         raise ValueError("an empty note")
     return out

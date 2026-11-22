@@ -1,10 +1,26 @@
 name: review-tests
 on:
   pull_request:
-    paths: ["review/**", "build.py", "downloads.py", "test_downloads.py"]
+    paths:
+      - "review/**"
+      - "build.py"
+      - "downloads.py"
+      - "test_downloads.py"
+      - ".github/workflows/review.yml"
+      - ".github/workflows/review-tests.yml"
+      - ".github/workflows/review-proof.yml"
+      - ".github/workflows/loam-pin.yml"
   push:
     branches: [main]
-    paths: ["review/**", "build.py", "downloads.py", "test_downloads.py"]
+    paths:
+      - "review/**"
+      - "build.py"
+      - "downloads.py"
+      - "test_downloads.py"
+      - ".github/workflows/review.yml"
+      - ".github/workflows/review-tests.yml"
+      - ".github/workflows/review-proof.yml"
+      - ".github/workflows/loam-pin.yml"
 permissions:
   contents: read
 jobs:
@@ -16,3 +32,7 @@ jobs:
           persist-credentials: false
       - run: python3 review/test_review.py
       - run: python3 test_downloads.py
+      - name: Check proof fixtures against the pinned Loam reader
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 review/proof.py --offline-only
