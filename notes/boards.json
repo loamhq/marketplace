@@ -1,17 +1,13 @@
 {
   "id": "boards",
-  "link": "https://github.com/michaelhejazi/loam-boards/tree/v0.1.1/boards",
-  "commit": "2b9de6fd1b5673b4d8c6789ea3e10f37d107cfc2",
-  "tag": "v0.1.1",
+  "link": "https://github.com/michaelhejazi/loam-boards/tree/v0.1.2/boards",
+  "commit": "c0341b3c87abfe04f2924df3072edeb0738094c9",
+  "tag": "v0.1.2",
   "folder": "boards",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "reviewed_at": "2026-11-22",
   "model": "gemini-4-argon",
   "standards": "ba144bb4b4a1",
-  "asset": {
-    "tag": "v0.1.1",
-    "sha256": "b5c6afc273c267d8fe14926458b7be243770062a9d9c6fb7c7c1a309f03a7f3e"
-  },
   "note": {
     "summary": "Boards lets you keep shared notes and checklists beside each conversation, and view or edit them either as draggable cards or as a Markdown file in your vault. It runs locally in your browser and uses a scheduled Python script on your server to clean up expired items.",
     "touches": [
@@ -31,7 +27,9 @@
       "While a board is mounted in an active tab, the browser polls the server every 2.5 seconds to check for updates from agents or other tabs.",
       "On the General board, any line starting with a `YYYY-MM-DD` date that does not have an explicit `until` date is automatically deleted after 14 days by the daily schedule, unless its SHA-256 digest is listed in `keep-dated-lines.json` in the plugin data folder."
     ],
-    "changed": [],
-    "since": ""
+    "changed": [
+      "Nothing widened in what the plugin reaches; this update only adds an icon to the manifest."
+    ],
+    "since": "0.1.1"
   }
 }
