@@ -82,15 +82,15 @@
       "kind": [
         "extension"
       ],
-      "version": "1.2.1",
-      "link": "https://github.com/michaelhejazi/loam-dictation/tree/v1.2.1",
+      "version": "1.2.4",
+      "link": "https://github.com/michaelhejazi/loam-dictation/tree/v1.2.4",
       "cover": "cover.webp",
       "asset": {
-        "tag": "v1.2.1",
-        "sha256": "a1251782eba1bf3c704164b2e060a5bff6a03c6c6c8795cc992258ba25b9aaa3"
+        "tag": "v1.2.4",
+        "sha256": "34308bc0df159554ea528b7071c5ba27f5d3a56ff197a543e1bef15bd77c2e5e"
       },
       "review": {
-        "commit": "fb9c51a4176135d394281e635ec7bff69d96f118",
+        "commit": "df712a6aa26295f00c104713fab0741595722f7f",
         "note": {
           "summary": "Dictation adds a microphone button to the composer, full-screen editor, and file editor so you can speak into your draft instead of typing. It records your take and sends it through its own plugin server to Google Gemini or OpenAI for transcription and optional cleanup, or falls back to your browser's built-in live speech recognition when no server key is set.",
           "touches": [
@@ -98,28 +98,30 @@
             "generativelanguage.googleapis.com from the plugin's server when a Google Gemini key is configured, sending recorded audio, custom vocabulary terms, and the resulting transcript (when Polish is Light or Full)",
             "api.openai.com from the plugin's server when an OpenAI key is configured and no Google key is present, sending recorded audio, custom vocabulary terms, and the resulting transcript (when Polish is Light or Full)",
             "Your browser's built-in speech recognition service when you choose 'As you speak' mode or when no server API key is configured",
-            "Your current conversation (the agent's name, thread title, and capitalized names from the last 8 messages) and the file 'Dictation terms.md' in your vault's system folder, read to bias spelling toward names and terms you use",
+            "Your current conversation (the agent's name, thread title, and capitalized names from the last 8 messages), your owner and agent names (when creating a terms note), and the file 'Dictation terms.md' in your vault's system folder, read to bias spelling toward names and terms you use",
             "Runs a local Node server on your Loam host that holds the Google Gemini and OpenAI API keys and reads your dictation terms note"
           ],
           "may_change": [
             "Adds a microphone button and an inline recording bar to the composer, full-screen editor, and file editor, and inserts transcribed words at your cursor",
-            "Adds a Dictation preferences section in Settings and saves your mode, polish level, maximum recording length, and chosen microphone in this browser's device settings",
+            "Adds a Dictation preferences section in Settings, saves recording preferences in this browser's device settings, and saves a 'gemini-suggestion' plugin setting across devices when you dismiss the Gemini key tip",
+            "Can create and open 'Dictation terms.md' in your vault's system folder in Files when you press 'Create terms note' in Dictation settings",
             "Adds an optional key setup sheet that can verify and save a Google Gemini API key to your Loam Connections settings when you paste one in"
           ],
           "worth_knowing": [
-            "It only inserts words into your draft at the cursor; it never sends a message or saves a file on its own.",
+            "It only inserts words into your draft at the cursor; it never sends a message or saves an existing file on its own.",
             "It checks for a Google Gemini key first, then an OpenAI key, and falls back to browser speech recognition if neither key is provided.",
             "In 'Record first' mode, capitalized words from the last 8 messages of the open conversation and terms from your 'Dictation terms.md' note are sent to the active speech provider alongside the audio to help it spell names right.",
             "When Polish is set to Light or Full, a second request is sent to Gemini or OpenAI with `store: false`, and a local check falls back to the unpolished transcript if the model adds unfamiliar proper nouns, changes the word count too much, or replies as a chatbot."
           ],
           "changed": [
-            "Nothing widened in what the plugin reaches; the Gemini key setup prompt now uses Loam's menu surface and only offers the key link when no server key is configured."
+            "Can now create 'Dictation terms.md' in your vault's system folder (seeded with your owner name and agent names) and open it in Files when you press 'Create terms note' in Dictation settings.",
+            "Contributes and writes the 'gemini-suggestion' plugin setting to remember across devices when you dismiss the Gemini key suggestion after a browser dictation take."
           ],
-          "since": "1.2.0"
+          "since": "1.2.1"
         },
         "folder": "",
-        "version": "1.2.1",
-        "reviewed_at": "2026-11-21"
+        "version": "1.2.4",
+        "reviewed_at": "2026-11-22"
       }
     },
     {
