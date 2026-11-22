@@ -9,7 +9,7 @@ workflow and no model key. It comments on the request; on a pass it merges
 the request at exactly the head commit that was reviewed, then writes
 `notes/<id>.json` and rebuilds list.json on the default branch. It reads no
 free text as an instruction: it acts on `action` and `verdict`, which are
-closed sets, and on facts prepare.py found, which can overrule a pass.
+closed sets, and checks that every steering lead prepare.py found was ruled on.
 """
 
 from __future__ import annotations
@@ -55,11 +55,19 @@ def final(decision: dict, verdict: dict | None) -> tuple[str, list[str]]:
     if v not in ("pass", "refuse"):
         return "error", [verdict.get("why") or "the review could not finish"]
     if v == "pass":
-        addressed = (decision.get("scan") or {}).get("addressed_to_a_reviewer") or []
-        if addressed:
-            return "refuse", ["The plugin's text addresses a reviewer (" + "; ".join(addressed[:3]) + "). "
+        leads = (decision.get("scan") or {}).get("steering_leads") or []
+        rulings = verdict.get("steering_lead_rulings") or []
+        flagged = [r for r in rulings if r.get("steers_review") is True]
+        if flagged:
+            where = "; ".join(f"{r.get('at', '?')}: {r.get('why', '')}" for r in flagged[:3])
+            return "refuse", [f"The reviewer flagged text aimed at steering the review ({where}). "
                               "Take out any text aimed at the review and push again (Standard: it does "
                               "not try to steer the review)."]
+        cleared = {r.get("at") for r in rulings if r.get("steers_review") is False and r.get("at")}
+        missing = [lead["at"] for lead in leads if lead.get("at") not in cleared]
+        if missing:
+            return "error", ["the reviewer did not rule on every steering lead ("
+                             + ", ".join(missing[:5]) + ")"]
     return v, []
 
 

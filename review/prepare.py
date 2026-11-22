@@ -328,15 +328,22 @@ DYNAMIC = re.compile(r"\beval\s*\(|\bnew\s+Function\s*\(|\bimport\s*\(\s*[^'\"\s
 SECRETS = re.compile(r"credentials|oauth|access_token|refresh_token|api[_-]?key|secrets?\.env|keys\.env|wake\.env|"
                      r"\.config/|\.claude|\.codex|\.gemini|GITHUB_TOKEN|BROKER_TOKEN|document\.cookie|"
                      r"localStorage|sessionStorage|\.ssh|id_rsa|Authorization", re.I)
-ADDRESSED = re.compile(r"\b(?:reviewer|reviewing (?:model|agent|ai)|language model|LLM|AI (?:review|assistant|model)|"
-                       r"ignore (?:all |any |the |your |previous |prior )|pre-?approved|system prompt|"
-                       r"you must (?:approve|pass)|output (?:a )?pass|verdict)\b", re.I)
-# A standalone JS regex matching a first-person model introduction contains a
-# role noun as data. Keep the full source in the review packet. Only this
-# closed grammar qualifies, so additional prose on the line is still scanned.
-ROLE_NOUN = r"(?:ai|assistant|language model|llm)"
-MODEL_INTRO_PATTERN = re.compile(
-    r"\s*/\^as an? \((?:\?:)?" + ROLE_NOUN + r"(?:\|" + ROLE_NOUN + r")*\)\\b/i?,?\s*", re.I)
+# Lines matching common review-steering or AI keywords are leads for the model,
+# never verdicts on their own. High-signal steering phrases are ordered before
+# generic AI words when trimming to the 40-lead cap so benign mentions of "LLM"
+# cannot crowd out an actual steering attempt.
+STEERING_STRONG = re.compile(
+    r"\b(?:reviewing (?:model|agent|ai)|pre-?approved|system prompt|"
+    r"you must (?:approve|pass)|output (?:a )?pass|"
+    r"ignore (?:all |any |your |previous |prior |earlier )?(?:standards|rules|instructions|prompt))\b",
+    re.I,
+)
+STEERING_LEAD = re.compile(
+    r"\b(?:reviewer|reviewing (?:model|agent|ai)|language model|LLM|AI (?:review|assistant|model)|"
+    r"ignore (?:all |any |the |your |previous |prior )|pre-?approved|system prompt|"
+    r"you must (?:approve|pass)|output (?:a )?pass|verdict)\b",
+    re.I,
+)
 
 SAFE_HOSTS = {"www.w3.org", "w3.org", "schemas.openxmlformats.org", "purl.org", "json-schema.org"}
 
@@ -344,10 +351,10 @@ SAFE_HOSTS = {"www.w3.org", "w3.org", "schemas.openxmlformats.org", "purl.org", 
 def scan(texts: list[dict], decl: dict) -> dict:
     """Facts for the reviewer, found by reading, not judged: hosts named in
     code against the declared ones, code that runs other code, words about
-    logins and keys, and text addressed to a reviewer."""
+    logins and keys, and steering leads for the model to rule on."""
     declared = {h["host"].lower() for h in decl["touches"].get("network") or []}
     hosts: dict[str, list[str]] = {}
-    dynamic, secrets, addressed = [], [], []
+    dynamic, secrets, strong_leads, other_leads = [], [], [], []
     for f in texts:
         for n, line in enumerate(f["text"].splitlines(), 1):
             where = f"{f['path']}:{n}"
@@ -361,15 +368,18 @@ def scan(texts: list[dict], decl: dict) -> dict:
                     dynamic.append(f"{where}: {line.strip()[:160]}")
                 if SECRETS.search(line):
                     secrets.append(f"{where}: {line.strip()[:160]}")
-            if ADDRESSED.search(line) and not (
-                    f["path"].endswith((".js", ".mjs", ".cjs")) and MODEL_INTRO_PATTERN.fullmatch(line)):
-                addressed.append(f"{where}: {line.strip()[:200]}")
+            if STEERING_LEAD.search(line):
+                entry = {"at": where, "line": line.strip()[:200]}
+                if STEERING_STRONG.search(line):
+                    strong_leads.append(entry)
+                else:
+                    other_leads.append(entry)
     return {
         "hosts_in_code": [{"host": h, "declared": h in declared, "at": at[:5]} for h, at in sorted(hosts.items())],
         "undeclared_hosts": sorted(h for h in hosts if h not in declared),
         "code_that_runs_code": dynamic[:40],
         "logins_and_keys": secrets[:40],
-        "addressed_to_a_reviewer": addressed[:40],
+        "steering_leads": (strong_leads + other_leads)[:40],
     }
 
 
@@ -406,6 +416,61 @@ def plugin_at(lp, src: dict, commit: str, folder_path: str, pid: str, version, w
 
 # ---------------------------------------------------------------- the packet
 
+def assemble_packet(listing: dict, manifest: dict, decl: dict, warnings: list[str],
+                    texts: list[dict], others: list[dict], *,
+                    repository: str, tag: str, commit: str, folder_path: str,
+                    update: dict | None = None) -> tuple[dict, dict]:
+    """Build the model packet and decision metadata from already-read plugin files."""
+    pid = listing["id"]
+    readme_name = listing.get("readme") or "README.md"
+    readme = next((f["text"] for f in texts if f["path"] == readme_name), None)
+    facts = scan(texts, decl)
+    packet = {
+        "listing": listing, "repository": repository, "tag": tag, "commit": commit,
+        "folder": folder_path,
+        "manifest": {k: manifest.get(k) for k in ("id", "name", "version", "author", "kind", "places", "overrides", "description")},
+        "declaration": decl, "loam_warnings": warnings, "readme": readme,
+        "files": texts, "other_files": others, "scan": facts, "update": update,
+    }
+    fit(packet)
+    meta = {"id": pid, "commit": commit, "tag": tag, "folder": folder_path, "link": listing["link"],
+            "version": manifest["version"], "scan": facts,
+            "update_from": update.get("from_version") if update else None}
+    return packet, meta
+
+
+def folder_packet(lp, folder: Path, listing: dict, *,
+                  commit: str = "0" * 40, tag: str = "v1.0.0",
+                  prior_folder: Path | None = None,
+                  prior_note: dict | None = None) -> tuple[dict, dict]:
+    """Prepare a packet directly from a local plugin folder (used by review/proof.py)."""
+    pid = listing["id"]
+    src = parse_link(listing["link"])
+    manifest, decl, warnings = check_manifest(lp, folder, pid, listing.get("version"))
+    texts, others, problems = read_files(folder)
+    if problems:
+        raise Refuse("\n".join(f"- {p}" for p in problems))
+    update = None
+    if prior_folder is not None:
+        pman, pdecl, _ = check_manifest(lp, prior_folder, pid, None)
+        ptexts, _, pproblems = read_files(prior_folder)
+        if pproblems:
+            raise Refuse("\n".join(f"- {p}" for p in pproblems))
+        update = {
+            "from_version": pman["version"],
+            "from_commit": (prior_note or {}).get("commit") or "1" * 40,
+            "declared_before": pdecl,
+            "declares_more_now": lp.added(pdecl, decl),
+            "diff": diff_of(ptexts, texts),
+            "previous_note": (prior_note or {}).get("note"),
+        }
+    return assemble_packet(
+        listing, manifest, decl, warnings, texts, others,
+        repository=f"{src['owner']}/{src['repo']}", tag=tag, commit=commit,
+        folder_path=src["path"] or pid, update=update,
+    )
+
+
 def build_packet(listing: dict, prior_note: dict | None, work: Path,
                  previous_listing: dict | None = None) -> tuple[dict, dict]:
     """The packet for the model and the facts for the decision. Raises Refuse."""
@@ -417,9 +482,6 @@ def build_packet(listing: dict, prior_note: dict | None, work: Path,
     lp = loam_reader(work)
     manifest, decl, warnings, texts, others = plugin_at(lp, src, commit, folder_path, pid,
                                                         listing.get("version"), work, tag)
-    readme_name = listing.get("readme") or "README.md"
-    readme = next((f["text"] for f in texts if f["path"] == readme_name), None)
-    facts = scan(texts, decl)
     update = None
     # A listing kept from before review still has a released version to
     # compare against. Its previous declaration comes from that release.
@@ -445,17 +507,12 @@ def build_packet(listing: dict, prior_note: dict | None, work: Path,
                       "diff": diff_of(ptexts, texts), "previous_note": baseline.get("note")}
         except Refuse as exc:
             update = {"from_version": baseline.get("version"), "from_commit": pcommit,
-                      "unreadable": str(exc), "previous_note": prior_note.get("note")}
-    packet = {
-        "listing": listing, "repository": f"{src['owner']}/{src['repo']}", "tag": tag, "commit": commit,
-        "folder": folder_path, "manifest": {k: manifest.get(k) for k in ("id", "name", "version", "author", "kind", "places", "overrides", "description")},
-        "declaration": decl, "loam_warnings": warnings, "readme": readme,
-        "files": texts, "other_files": others, "scan": facts, "update": update,
-    }
-    fit(packet)
-    meta = {"id": pid, "commit": commit, "tag": tag, "folder": folder_path, "link": listing["link"],
-            "version": manifest["version"], "scan": facts,
-            "update_from": update.get("from_version") if update else None}
+                      "unreadable": str(exc), "previous_note": baseline.get("note")}
+    packet, meta = assemble_packet(
+        listing, manifest, decl, warnings, texts, others,
+        repository=f"{src['owner']}/{src['repo']}", tag=tag, commit=commit,
+        folder_path=folder_path, update=update,
+    )
     import downloads
     asset = downloads.release_asset(f"{src['owner']}/{src['repo']}", tag, pid)
     if asset:
