@@ -1,17 +1,13 @@
 {
   "id": "dictation",
-  "link": "https://github.com/michaelhejazi/loam-dictation/tree/v1.2.5",
-  "commit": "be25660cc31670f5c8e2a3e122268dc50977e596",
-  "tag": "v1.2.5",
+  "link": "https://github.com/michaelhejazi/loam-dictation/tree/v1.2.6",
+  "commit": "c935f9dbc099092f1c04f830216462bea6b7173e",
+  "tag": "v1.2.6",
   "folder": "",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "reviewed_at": "2026-11-22",
   "model": "gemini-4-argon",
   "standards": "ba144bb4b4a1",
-  "asset": {
-    "tag": "v1.2.5",
-    "sha256": "07bc178e56229f2e720e8dd1762c4a8d7e4fc41d1fb07c1445651e3993671a6c"
-  },
   "note": {
     "summary": "Dictation adds a microphone button to the composer, full-screen editor, and file editor so you can speak into your draft instead of typing. It records your take and sends it through its own plugin server to Google Gemini or OpenAI for transcription and optional cleanup, or falls back to your browser's built-in live speech recognition when no server key is set.",
     "touches": [
@@ -35,8 +31,8 @@
       "When Polish is set to Light or Full, a second request is sent to Gemini or OpenAI with `store: false`, and a local check falls back to the unpolished transcript if the model adds unfamiliar proper nouns, changes the word count too much, or replies as a chatbot."
     ],
     "changed": [
-      "Nothing widened in what the plugin reaches; only the wording of the tip shown after a browser dictation take changed."
+      "Nothing widened in what the plugin reaches; only the plugin icon changed from SVG to WebP."
     ],
-    "since": "1.2.4"
+    "since": "1.2.5"
   }
 }
