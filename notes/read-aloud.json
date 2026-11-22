@@ -1,13 +1,13 @@
 {
   "id": "read-aloud",
-  "link": "https://github.com/michaelhejazi/loam-read-aloud/tree/v1.2.1",
-  "commit": "63d2c3d71d641dafca529629f307d13c2cec469a",
-  "tag": "v1.2.1",
+  "link": "https://github.com/michaelhejazi/loam-read-aloud/tree/v1.2.2",
+  "commit": "d08acf0a7ef10f8adde753926ad6bbf7c831cf33",
+  "tag": "v1.2.2",
   "folder": "",
-  "version": "1.2.1",
-  "reviewed_at": "2026-11-21",
+  "version": "1.2.2",
+  "reviewed_at": "2026-11-22",
   "model": "gemini-4-argon",
-  "standards": "a8beac77447e",
+  "standards": "ba144bb4b4a1",
   "note": {
     "summary": "Read aloud adds a speaker button to agent replies and markdown notes in Files so you can listen to them or hear a shorter spoken summary. It runs a local plugin server on your Loam that generates and caches speech using Google Gemini or OpenAI when a key is configured, or falls back to your browser's built-in speech synthesis without a key.",
     "touches": [
@@ -29,13 +29,9 @@
       "Generated MP3 files and cached table or diagram descriptions are kept on disk in the plugin's private directory and automatically swept after 48 hours of inactivity."
     ],
     "changed": [
-      "No new hosts, permissions, or data access compared to version 1.2.0.",
-      "Updates the Gemini key setup guide to use Loam's shared menu surface and only shows the setup link in Settings when using the browser voice fallback."
+      "No new hosts, permissions, or data access compared to version 1.2.1.",
+      "Replaces the SVG plugin icon with a WebP icon and adds a cover image."
     ],
-    "since": "1.2.0"
-  },
-  "asset": {
-    "tag": "v1.2.1",
-    "sha256": "b7111908950733a63619c13ece15de78ee59a9d0e0d521204ef99d952db769fc"
+    "since": "1.2.1"
   }
 }
