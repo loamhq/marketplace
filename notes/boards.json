@@ -1,0 +1,37 @@
+{
+  "id": "boards",
+  "link": "https://github.com/michaelhejazi/loam-boards/tree/v0.1.1/boards",
+  "commit": "2b9de6fd1b5673b4d8c6789ea3e10f37d107cfc2",
+  "tag": "v0.1.1",
+  "folder": "boards",
+  "version": "0.1.1",
+  "reviewed_at": "2026-11-22",
+  "model": "gemini-4-argon",
+  "standards": "ba144bb4b4a1",
+  "asset": {
+    "tag": "v0.1.1",
+    "sha256": "b5c6afc273c267d8fe14926458b7be243770062a9d9c6fb7c7c1a309f03a7f3e"
+  },
+  "note": {
+    "summary": "Boards lets you keep shared notes and checklists beside each conversation, and view or edit them either as draggable cards or as a Markdown file in your vault. It runs locally in your browser and uses a scheduled Python script on your server to clean up expired items.",
+    "touches": [
+      "Your conversations and their associated board Markdown files in the vault (reads and writes via `/threads/<id>/files/boards` and `loam_thread_files`)",
+      "Your owner profile name (`/owner`) to attribute notes you add",
+      "Your server, running `expiry.py` hourly and daily on a schedule, and reading `keep-dated-lines.json` from the plugin's data folder if present",
+      "Your agents' persona prompt, adding instructions on how to format board items and metadata comments"
+    ],
+    "may_change": [
+      "Adds a Board button and slide-over card panel to conversation headers",
+      "Projects board Markdown files in the Files viewer so inline HTML metadata comments and YAML frontmatter are hidden while editing",
+      "Creates and updates a board Markdown file for each conversation, and automatically deletes lines whose `until YYYY-MM-DD` expiry date has passed (plus dated lines older than 14 days on the General board)",
+      "Stores unsaved board drafts temporarily in browser `sessionStorage`"
+    ],
+    "worth_knowing": [
+      "Requires Loam 0.2.28 or later for `thread.file`, header controls, and Markdown projection slots.",
+      "While a board is mounted in an active tab, the browser polls the server every 2.5 seconds to check for updates from agents or other tabs.",
+      "On the General board, any line starting with a `YYYY-MM-DD` date that does not have an explicit `until` date is automatically deleted after 14 days by the daily schedule, unless its SHA-256 digest is listed in `keep-dated-lines.json` in the plugin data folder."
+    ],
+    "changed": [],
+    "since": ""
+  }
+}
