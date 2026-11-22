@@ -46,10 +46,11 @@
       "kind": [
         "extension"
       ],
-      "version": "0.1.2",
-      "link": "https://github.com/michaelhejazi/loam-boards/tree/v0.1.2/boards",
+      "version": "0.1.3",
+      "link": "https://github.com/michaelhejazi/loam-boards/tree/v0.1.3/boards",
+      "cover": "cover.webp",
       "review": {
-        "commit": "c0341b3c87abfe04f2924df3072edeb0738094c9",
+        "commit": "4fb17b8a66614c07827a7db0a91b1549d159330b",
         "note": {
           "summary": "Boards lets you keep shared notes and checklists beside each conversation, and view or edit them either as draggable cards or as a Markdown file in your vault. It runs locally in your browser and uses a scheduled Python script on your server to clean up expired items.",
           "touches": [
@@ -70,12 +71,12 @@
             "On the General board, any line starting with a `YYYY-MM-DD` date that does not have an explicit `until` date is automatically deleted after 14 days by the daily schedule, unless its SHA-256 digest is listed in `keep-dated-lines.json` in the plugin data folder."
           ],
           "changed": [
-            "Nothing widened in what the plugin reaches; this update only adds an icon to the manifest."
+            "Nothing widened in what the plugin reaches; this update only increments the version number."
           ],
-          "since": "0.1.1"
+          "since": "0.1.2"
         },
         "folder": "boards",
-        "version": "0.1.2",
+        "version": "0.1.3",
         "reviewed_at": "2026-11-22"
       }
     },
