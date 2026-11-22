@@ -1,10 +1,10 @@
 {
   "id": "dictation",
-  "link": "https://github.com/michaelhejazi/loam-dictation/tree/v1.2.6",
-  "commit": "c935f9dbc099092f1c04f830216462bea6b7173e",
-  "tag": "v1.2.6",
+  "link": "https://github.com/michaelhejazi/loam-dictation/tree/v1.2.7",
+  "commit": "67723c06622a4317d1613bba5fc5af865867904d",
+  "tag": "v1.2.7",
   "folder": "",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "reviewed_at": "2026-11-22",
   "model": "gemini-4-argon",
   "standards": "ba144bb4b4a1",
@@ -31,8 +31,8 @@
       "When Polish is set to Light or Full, a second request is sent to Gemini or OpenAI with `store: false`, and a local check falls back to the unpolished transcript if the model adds unfamiliar proper nouns, changes the word count too much, or replies as a chatbot."
     ],
     "changed": [
-      "Nothing widened in what the plugin reaches; only the plugin icon changed from SVG to WebP."
+      "Nothing widened in what the plugin reaches or changed in its behavior; only the version number in PLUGIN.md was bumped from 1.2.6 to 1.2.7."
     ],
-    "since": "1.2.5"
+    "since": "1.2.6"
   }
 }
