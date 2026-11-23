@@ -6,6 +6,13 @@
       },
       "downloads": 2
     },
+    "boards": {
+      "assets": {
+        "778127225": 2,
+        "780092279": 2
+      },
+      "downloads": 4
+    },
     "deep-forest": {
       "assets": {
         "776662120": 1
@@ -16,9 +23,9 @@
       "assets": {
         "776662239": 2,
         "777595408": 1,
-        "777618269": 1
+        "777618269": 3
       },
-      "downloads": 4
+      "downloads": 6
     },
     "foundry": {
       "assets": {
