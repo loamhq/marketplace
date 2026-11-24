@@ -9,9 +9,10 @@
     "boards": {
       "assets": {
         "778127225": 2,
-        "780092279": 2
+        "780092279": 3,
+        "785012260": 1
       },
-      "downloads": 4
+      "downloads": 6
     },
     "deep-forest": {
       "assets": {
@@ -36,9 +37,9 @@
     "garden": {
       "assets": {
         "776818999": 3,
-        "776847958": 10
+        "776847958": 13
       },
-      "downloads": 13
+      "downloads": 16
     },
     "mist-trail": {
       "assets": {
