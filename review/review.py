@@ -42,14 +42,16 @@ SCHEMA = {
         "questions": LIST,
         "note": {"type": "OBJECT", "properties": {
             "summary": {"type": "STRING"}, "touches": LIST, "may_change": LIST,
-            "worth_knowing": LIST, "changed": LIST, "since": {"type": "STRING"}},
-            "required": ["summary", "touches", "may_change", "worth_knowing", "changed"]},
+            "worth_knowing": LIST, "differences": LIST, "changed": LIST, "since": {"type": "STRING"}},
+            "required": ["summary", "touches", "may_change", "worth_knowing", "differences", "changed"]},
         "declaration_matches_code": {"type": "BOOLEAN"},
+        "words_mislead_owner": {"type": "BOOLEAN"},
         "steering_lead_rulings": {"type": "ARRAY", "items": {"type": "OBJECT", "properties": {
             "at": {"type": "STRING"}, "steers_review": {"type": "BOOLEAN"}, "why": {"type": "STRING"}},
             "required": ["at", "steers_review", "why"]}},
     },
-    "required": ["verdict", "reasons", "questions", "note", "declaration_matches_code", "steering_lead_rulings"],
+    "required": ["verdict", "reasons", "questions", "note", "declaration_matches_code",
+                 "words_mislead_owner", "steering_lead_rulings"],
 }
 TEXT_MAX, ITEM_MAX, ITEMS_MAX, LEADS_MAX = 600, 400, 8, 40
 
@@ -91,9 +93,13 @@ def shape(raw: dict) -> dict:
     if not isinstance(note, dict):
         raise ValueError("no note")
     out_note = {"summary": text(note.get("summary", ""), TEXT_MAX)}
-    for k in ("touches", "may_change", "worth_knowing", "changed"):
+    for k in ("touches", "may_change", "worth_knowing", "differences", "changed"):
         out_note[k] = items(note.get(k) or [])
     out_note["since"] = text(note.get("since") or "", 40)
+    if not isinstance(raw.get("declaration_matches_code"), bool):
+        raise ValueError("declaration_matches_code is not a boolean")
+    if not isinstance(raw.get("words_mislead_owner"), bool):
+        raise ValueError("words_mislead_owner is not a boolean")
     raw_rulings = raw.get("steering_lead_rulings")
     if not isinstance(raw_rulings, list):
         raise ValueError("steering_lead_rulings is not a list")
@@ -105,13 +111,16 @@ def shape(raw: dict) -> dict:
                         "steers_review": r["steers_review"],
                         "why": text(r.get("why", ""), ITEM_MAX)})
     out = {"verdict": raw["verdict"], "reasons": reasons, "questions": items(raw.get("questions") or []),
-           "note": out_note, "declaration_matches_code": raw.get("declaration_matches_code") is True,
+           "note": out_note, "declaration_matches_code": raw["declaration_matches_code"],
+           "words_mislead_owner": raw["words_mislead_owner"],
            "steering_lead_rulings": rulings}
     steered = any(r["steers_review"] for r in rulings)
-    if out["verdict"] == "pass" and (out["questions"] or reasons or not out["declaration_matches_code"] or steered):
-        # A pass that carries a question, a reason, a mismatch or a steering ruling is not a pass.
+    if out["verdict"] == "pass" and (out["questions"] or reasons or out["words_mislead_owner"] or steered):
+        # A pass that carries a question, a reason, misleading words or a steering ruling is not a pass.
         out["verdict"] = "refuse"
-        out["overruled"] = "the answer said pass but also named a problem, a question or steering text"
+        out["overruled"] = "the answer said pass but also named a problem, a question, misleading words or steering text"
+    if out["verdict"] == "pass" and not out["declaration_matches_code"] and not out_note["differences"]:
+        raise ValueError("declaration mismatch passed with no note.differences")
     if not out_note["summary"]:
         raise ValueError("an empty note")
     return out

@@ -1,0 +1,52 @@
+.thread-tagger,
+.thread-tagger-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font: 12px/1.3 system-ui, sans-serif;
+  color: var(--ink-soft, #555);
+}
+
+.thread-tagger {
+  padding: 4px 12px 8px;
+}
+
+.thread-tagger-line {
+  flex-wrap: nowrap;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 4px 12px;
+}
+
+.thread-tagger-line__label {
+  font-weight: 600;
+}
+
+.thread-tagger-chip {
+  border: 1px solid var(--rule, rgba(0, 0, 0, 0.15));
+  border-radius: 999px;
+  padding: 1px 8px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.thread-tagger-chip--quiet {
+  cursor: default;
+}
+
+.thread-tagger-chip--kept {
+  background: var(--accent-soft, rgba(80, 120, 200, 0.15));
+  border-color: transparent;
+}
+
+.thread-tagger-chip:focus-visible {
+  outline: 2px solid var(--accent, #4a6fd0);
+  outline-offset: 1px;
+}
+
+.thread-tagger__status {
+  color: var(--danger, #a33);
+}

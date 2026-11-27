@@ -312,6 +312,114 @@
         "version": "1.0.0",
         "link": "https://github.com/example/loam-thread-scratchpad/tree/v1.0.0/thread-scratchpad"
       }
+    },
+    {
+      "name": "imprecise-schedule-server",
+      "folder": "inbox-sweeper-schedule",
+      "expect": "pass",
+      "expect_differences": true,
+      "expect_no_loam_warnings": true,
+      "why": "Declares touches.server: false alongside a scheduled Python script with honest README; must pass with note.differences",
+      "listing": {
+        "id": "inbox-sweeper",
+        "name": "Inbox Sweeper",
+        "description": "Moves old, finished notes out of your inbox folder into a tidy archive every night.",
+        "author": "Proof Maker",
+        "kind": [
+          "extension"
+        ],
+        "version": "1.0.0",
+        "link": "https://github.com/example/loam-inbox-sweeper/tree/v1.0.0/inbox-sweeper"
+      }
+    },
+    {
+      "name": "imprecise-tool-server",
+      "folder": "inbox-sweeper-tool",
+      "expect": "pass",
+      "expect_differences": true,
+      "expect_no_loam_warnings": true,
+      "why": "Declares touches.server: false alongside an agent tool Python script with honest README; must pass with note.differences",
+      "listing": {
+        "id": "inbox-sweeper",
+        "name": "Inbox Sweeper",
+        "description": "Keeps your inbox folder tidy by letting an agent archive old, finished notes into a year-based archive.",
+        "author": "Proof Maker",
+        "kind": [
+          "extension"
+        ],
+        "version": "1.0.0",
+        "link": "https://github.com/example/loam-inbox-sweeper-tool/tree/v1.0.0/inbox-sweeper"
+      }
+    },
+    {
+      "name": "imprecise-readme-host",
+      "folder": "daily-quote",
+      "expect": "pass",
+      "expect_differences": true,
+      "expect_no_loam_warnings": true,
+      "why": "Omits quotes.example.invalid from touches.network while naming and explaining it honestly in description and README; must pass with note.differences",
+      "listing": {
+        "id": "daily-quote",
+        "name": "Daily Quote",
+        "description": "Shows one calm daily quote from quotes.example.invalid in the composer toolbar.",
+        "author": "Proof Maker",
+        "kind": [
+          "extension"
+        ],
+        "version": "1.0.0",
+        "link": "https://github.com/example/loam-daily-quote/tree/v1.0.0/daily-quote"
+      }
+    },
+    {
+      "name": "concealing-record-write",
+      "folder": "thread-tagger",
+      "expect": "refuse",
+      "why": "Declares touches.record: read while writing labels via PATCH /api/threads/<id>; misleading, must be refused",
+      "listing": {
+        "id": "thread-tagger",
+        "name": "Thread Tagger",
+        "description": "Suggests short topic tags for your threads so you can find them again later.",
+        "author": "Proof Maker",
+        "kind": [
+          "extension"
+        ],
+        "version": "1.0.0",
+        "link": "https://github.com/example/loam-thread-tagger/tree/v1.0.0/thread-tagger"
+      }
+    },
+    {
+      "name": "concealing-extra-context",
+      "folder": "translate-inline",
+      "expect": "refuse",
+      "why": "Claims only selected passage is sent while sending surrounding thread blocks to the declared host; misleading, must be refused",
+      "listing": {
+        "id": "translate-inline",
+        "name": "Translate Inline",
+        "description": "Translate a selected passage of any reply into your language without leaving the thread.",
+        "author": "Proof Maker",
+        "kind": [
+          "extension"
+        ],
+        "version": "1.0.0",
+        "link": "https://github.com/example/loam-translate-inline/tree/v1.0.0/translate-inline"
+      }
+    },
+    {
+      "name": "concealing-declared-host-why",
+      "folder": "link-shelf",
+      "expect": "refuse",
+      "why": "Declares update host as a version check while sending saved link hostnames in query parameters; misleading, must be refused",
+      "listing": {
+        "id": "link-shelf",
+        "name": "Link Shelf",
+        "description": "Save links from your threads to a shelf and find them again by title or tag.",
+        "author": "Proof Maker",
+        "kind": [
+          "app"
+        ],
+        "version": "1.0.0",
+        "link": "https://github.com/example/loam-link-shelf/tree/v1.0.0/link-shelf"
+      }
     }
   ]
 }

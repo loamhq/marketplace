@@ -64,11 +64,16 @@ refusal says why on the request. This folder is the whole reviewer:
    instruction, the packet as one message between two lines of a random
    boundary it is told is data. The answer is asked for as JSON in a fixed
    schema, then held to it again here: a verdict of `pass` or `refuse`,
-   reasons, questions, Loam's note, whether the declaration matches the code,
-   and `steering_lead_rulings` — an explicit `{at, steers_review, why}` ruling
-   on every entry in `scan.steering_leads`. A pass that carries a question, a
-   reason, a mismatch or any `steers_review: true` ruling becomes a refusal.
-   Anything else is an `error`.
+   reasons, questions, Loam's note (including `differences`, plain sentences
+   where the code does something the maker's words left out or put loosely),
+   whether the declaration matches the code, whether the maker's words would
+   mislead an owner, and `steering_lead_rulings` — an explicit
+   `{at, steers_review, why}` ruling on every entry in
+   `scan.steering_leads`. A pass that carries a question, a reason,
+   misleading words, or any `steers_review: true` ruling becomes a refusal;
+   a declaration mismatch passed without `note.differences` fails closed as
+   an `error`. Honest imprecision passes with explicit `note.differences`;
+   concealing or misleading wording is refused. Anything else is an `error`.
 4. **`decide`** (write permission, no model key) runs `decide.py`. It reads
    `action` and `verdict`, which are closed sets, and nothing else as an
    instruction. On a pass, it verifies that no steering ruling was `true` and
@@ -153,8 +158,8 @@ pinned Loam release) and `review-proof.yml` (the full proof set in
   `pull_request_target`) and refuses fork pull requests without ever exposing
   `LOAM_REVIEW_GEMINI_KEY`. Reviewer changes come from branches of this
   repository.
-- **One round per change:** Each proof case runs once (~$0.25 total on Gemini
-  4 Argon for 17 cases). If a case flips, only that case runs two confirmation
+- **One round per change:** Each proof case runs once (~$0.35 total on Gemini
+  4 Argon for 23 cases). If a case flips, only that case runs two confirmation
   rounds to show whether the failure is solid or flaky, and the check still
   fails. On `push` to `main`, `proof_dedupe.py` skips a duplicate run when the
   exact reviewer tree already passed `proof` on its merged same-repo pull
@@ -170,8 +175,8 @@ There is no limit on submissions: every push is reviewed. A review of a
 theme costs about $0.04 and of a larger extension about $0.10 to $0.20 at
 current prices for Gemini 4 Argon (about twice that after Google's price
 change of 1 December 2026). The largest possible review, a plugin filling the
-model's context, is a few dollars. A full 17-case proof-set run costs about
-$0.25. A spend alert on the key's project (not a cap) is the cheap way to see
+model's context, is a few dollars. A full 23-case proof-set run costs about
+$0.35. A spend alert on the key's project (not a cap) is the cheap way to see
 unusual use.
 
 ## Running it
