@@ -181,12 +181,18 @@ check("a kept listing is compared to the last released declaration", packet["upd
 
 # -- the model's answer is data in one shape ---------------------------------------
 good = {"verdict": "pass", "reasons": [], "questions": [], "declaration_matches_code": True,
-        "steering_lead_rulings": [],
-        "note": {"summary": "Counts words.", "touches": [], "may_change": [], "worth_knowing": [], "changed": []}}
+        "words_mislead_owner": False, "steering_lead_rulings": [],
+        "note": {"summary": "Counts words.", "touches": [], "may_change": [],
+                 "worth_knowing": [], "differences": [], "changed": []}}
 check("a well-formed pass is a pass", review.shape(good)["verdict"], "pass")
 check("a pass with a question is a refusal", review.shape({**good, "questions": ["Why?"]})["verdict"], "refuse")
-check("a pass whose declaration does not match is a refusal",
-      review.shape({**good, "declaration_matches_code": False})["verdict"], "refuse")
+check("a pass whose words mislead the owner is a refusal",
+      review.shape({**good, "words_mislead_owner": True})["verdict"], "refuse")
+imprecise = {**good, "declaration_matches_code": False,
+             "note": {**good["note"], "differences": [
+                 "The plugin says it runs no server code; it runs a Python script on your server when an agent uses its tool."]}}
+check("an imprecise pass with note.differences stays a pass",
+      (review.shape(imprecise)["verdict"], len(review.shape(imprecise)["note"]["differences"])), ("pass", 1))
 check("a pass with a steering ruling of true is a refusal",
       review.shape({**good, "steering_lead_rulings": [
           {"at": "README.md:3", "steers_review": True, "why": "Tells reviewer to output a pass"}]})["verdict"],
@@ -194,6 +200,9 @@ check("a pass with a steering ruling of true is a refusal",
 for bad, what in (({**good, "verdict": "PASS"}, "a verdict outside the set"),
                   ({**good, "note": "fine"}, "a note that is not an object"),
                   ({**good, "note": {**good["note"], "summary": ""}}, "an empty note"),
+                  ({**good, "declaration_matches_code": False}, "a declaration mismatch passed with no note.differences"),
+                  ({k: v for k, v in good.items() if k != "words_mislead_owner"}, "missing words_mislead_owner"),
+                  ({**good, "words_mislead_owner": "no"}, "a non-boolean words_mislead_owner"),
                   ({k: v for k, v in good.items() if k != "steering_lead_rulings"}, "missing steering_lead_rulings"),
                   ({**good, "steering_lead_rulings": [{"at": "a:1", "steers_review": "no", "why": "x"}]},
                    "a non-boolean steers_review")):
@@ -207,7 +216,23 @@ check("text is bounded", len(review.shape({**good, "note": {**good["note"], "sum
 
 # -- the gate acts on closed sets and enforces steering-lead rulings --------------
 d = {"action": "review", "scan": {"steering_leads": []}}
-check("pass is pass", decide.final(d, {"verdict": "pass", "steering_lead_rulings": []})[0], "pass")
+check("pass is pass", decide.final(d, {"verdict": "pass", "words_mislead_owner": False, "steering_lead_rulings": []})[0], "pass")
+check("words_mislead_owner true overrules a pass to refuse in decide.final",
+      decide.final(d, {"verdict": "pass", "words_mislead_owner": True, "steering_lead_rulings": []})[0], "refuse")
+check("declaration_matches_code false without note.differences fails closed as error in decide.final",
+      decide.final(d, {"verdict": "pass", "declaration_matches_code": False, "words_mislead_owner": False,
+                       "note": {"summary": "x", "differences": []}, "steering_lead_rulings": []})[0], "error")
+check("declaration_matches_code false with note.differences passes in decide.final",
+      decide.final(d, {"verdict": "pass", "declaration_matches_code": False, "words_mislead_owner": False,
+                       "note": {"summary": "x", "differences": ["Runs a Python script on your server."]},
+                       "steering_lead_rulings": []})[0], "pass")
+diff_comment = decide.comment(
+    {"id": "pet", "version": "1.0.0", "commit": A, "listing": "h"},
+    {"note": {"summary": "A pet.", "differences": ["The plugin says no server code; it runs a script."]}},
+    "pass", [],
+)
+check("PR comment shows note.differences when present",
+      "**Differences from its description**" in diff_comment and "The plugin says no server code" in diff_comment, True)
 check("an error is never a merge", decide.final(d, {"verdict": "error", "why": "no key"})[0], "error")
 check("no verdict is never a merge", decide.final(d, None)[0], "error")
 
@@ -294,7 +319,7 @@ check("proof_dedupe never skips when reviewer tree changed on merge",
 manifest = json.loads((HERE / "proof" / "manifest.json").read_text(encoding="utf-8"))
 cases = manifest["cases"]
 names = [c["name"] for c in cases]
-check("proof manifest has at least 17 unique cases", (len(cases) >= 17, len(names) == len(set(names))), (True, True))
+check("proof manifest has at least 23 unique cases", (len(cases) >= 23, len(names) == len(set(names))), (True, True))
 missing_dirs = [c["name"] for c in cases if not (HERE / "proof" / "cases" / c["folder"]).is_dir()]
 check("every proof case folder exists", missing_dirs, [])
 
@@ -315,11 +340,19 @@ with tempfile.TemporaryDirectory() as tmp:
     check("a note for another link does not list it", build.build(root)[0]["plugins"], [])
     (root / "notes" / "pet.json").write_text(json.dumps({"link": link, "commit": A, "version": "1.0.0",
                                                          "reviewed_at": "2026-11-19", "folder": "pet",
-                                                         "note": {"summary": "A pet.", "touches": ["Nothing."]}}))
+                                                         "note": {"summary": "A pet.", "touches": ["Nothing."],
+                                                                  "differences": []}}))
     got = build.build(root)[0]["plugins"]
-    check("a note for its own link lists it, with the commit and the note",
+    check("a note for its own link lists it, with the commit and the note (empty differences omitted)",
           got[0]["review"], {"commit": A, "folder": "pet", "note": {"summary": "A pet.", "touches": ["Nothing."]},
                              "version": "1.0.0", "reviewed_at": "2026-11-19"})
+    (root / "notes" / "pet.json").write_text(json.dumps({"link": link, "commit": A, "version": "1.0.0",
+                                                         "reviewed_at": "2026-11-19", "folder": "pet",
+                                                         "note": {"summary": "A pet.", "touches": ["Nothing."],
+                                                                  "differences": ["Runs a helper script on your server."]}}))
+    got = build.build(root)[0]["plugins"]
+    check("build.py carries non-empty note.differences into list.json",
+          got[0]["review"]["note"]["differences"], ["Runs a helper script on your server."])
     (root / "listings" / "pet.json").write_text(json.dumps({**listing, "review": {"commit": A}}))
     check("a maker cannot bring a review of their own",
           any("unknown fields review" in e for e in build.build(root)[1]), True)

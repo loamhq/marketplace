@@ -11,8 +11,10 @@ new review.
 When it passes, it also writes **Loam's note** for your listing: what the
 plugin touches, what it may change, and what in the code is worth knowing
 before installing. Owners read it beside your README, marked as Loam's
-words. On an update the note is rewritten and says what changed in what the
-plugin reaches since the version reviewed before.
+words. Where the code does something your own description leaves out or puts
+loosely, the note says so, plainly, as a difference. On an update the note
+is rewritten and says what changed in what the plugin reaches since the
+version reviewed before.
 
 A plugin passes when it meets all three tests below.
 
@@ -45,10 +47,21 @@ and is honest.
 
 ## 3. It meets Loam's rules for listing
 
-- **Its `touches` are what it does.** Every host it contacts is under
-  `touches.network`, with why. If it reads or writes conversation records or
-  shared memory, it says so; if it runs code on the server, it says so.
-  Nothing it reaches is missing, and nothing is wider than it needs.
+- **It tells its owner the truth about what it does.** Between your
+  `touches`, your description and your README, an owner should learn
+  everything the plugin reaches: each host it contacts and why, whether it
+  reads or writes conversation records or shared memory, whether it runs
+  code on the server.
+
+  It does not have to be perfect. If something is in the wrong field,
+  loosely worded or left out, and an owner who read your words would not be
+  surprised by what the code does, the plugin passes and Loam's note fills
+  the gap.
+
+  It is refused when your words would leave an owner believing something
+  false: a host that is contacted and named nowhere, "sends only your
+  selection" from a plugin that sends the whole conversation, "read" from
+  one that also writes. Nothing it reaches is wider than it needs.
 - **Its repository is public**, and the listing names a release tag (or the
   whole commit one names) in your own repository, never a branch. The
   listing delivers that commit, exactly; moving the tag later changes
@@ -61,9 +74,13 @@ and is honest.
 
 ## When the reviewer is unsure
 
-It refuses, and asks. A refusal that names its question costs you one push;
-a wrong pass can cost an owner their logins. Answer the question in your
-README or your code (a comment saying why is often enough) and push again.
+About test 2, it refuses, and asks. A refusal that names its question costs
+you one push; a wrong pass can cost an owner their logins. Answer the
+question in your README or your code (a comment saying why is often enough)
+and push again.
+
+About how well your words match your code, it leans toward passing, and says
+what it found in Loam's note.
 
 ## What this is not
 

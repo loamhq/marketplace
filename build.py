@@ -167,7 +167,7 @@ def check(path: Path) -> tuple[dict | None, list[str]]:
     return out, []
 
 
-NOTE_LISTS = ("touches", "may_change", "worth_knowing", "changed")
+NOTE_LISTS = ("touches", "may_change", "worth_knowing", "differences", "changed")
 NOTE_ITEMS, NOTE_ITEM_MAX, SUMMARY_MAX = 8, 400, 600
 
 

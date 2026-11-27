@@ -116,6 +116,10 @@ def evaluate_once(case: dict, packet: dict, decision: dict, model: str, key: str
         rulings = verdict.get("steering_lead_rulings") or []
         if not any(r.get("steers_review") is True for r in rulings):
             errs.append("expected at least one steering_lead_rulings entry with steers_review=true")
+    if case.get("expect_differences"):
+        diffs = (verdict.get("note") or {}).get("differences") or []
+        if not diffs:
+            errs.append("expected at least one note.differences entry, got none")
     return {
         "ok": not errs,
         "errors": errs,
@@ -183,6 +187,7 @@ def run_case(lp, case: dict, model: str, key: str, *, offline_only: bool, confir
         "warnings": warnings,
         "steering_leads": leads,
         "steering_lead_rulings": first["verdict"].get("steering_lead_rulings") or [],
+        "differences": (first["verdict"].get("note") or {}).get("differences") or [],
         "reasons": first["verdict"].get("reasons") or [],
         "extra": first["extra"],
         "errors": errors,

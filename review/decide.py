@@ -55,6 +55,12 @@ def final(decision: dict, verdict: dict | None) -> tuple[str, list[str]]:
     if v not in ("pass", "refuse"):
         return "error", [verdict.get("why") or "the review could not finish"]
     if v == "pass":
+        if verdict.get("words_mislead_owner") is True:
+            return "refuse", ["The plugin's description or declaration would leave an owner believing "
+                              "something false about what it does (Standard: it tells its owner the "
+                              "truth about what it does)."]
+        if verdict.get("declaration_matches_code") is False and not (verdict.get("note") or {}).get("differences"):
+            return "error", ["the reviewer noted a declaration mismatch without naming differences in Loam's note"]
         leads = (decision.get("scan") or {}).get("steering_leads") or []
         rulings = verdict.get("steering_lead_rulings") or []
         flagged = [r for r in rulings if r.get("steers_review") is True]
@@ -99,7 +105,8 @@ def comment(decision: dict, verdict: dict | None, outcome: str, extra: list[str]
         lines += ["<details><summary>Loam's note, as owners would read it</summary>", ""
                   ] if outcome == "refuse" else ["#### Loam's note", ""]
         lines.append(safe(note.get("summary", "")))
-        for key, title in (("touches", "What it touches"), ("may_change", "What it may change"),
+        for key, title in (("differences", "Differences from its description"),
+                           ("touches", "What it touches"), ("may_change", "What it may change"),
                            ("worth_knowing", "Worth knowing"),
                            ("changed", f"Changed since {note.get('since') or 'the last version'}")):
             if note.get(key):

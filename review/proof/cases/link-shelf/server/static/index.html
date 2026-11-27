@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Link Shelf</title>
+<style>
+body{font-family:system-ui,sans-serif;margin:0;padding:1.5rem;color:#222}
+h1{font-size:1.3rem}
+form{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+input{padding:.4rem .6rem;border:1px solid #ccc;border-radius:6px}
+input[name=url]{flex:2 1 16rem}
+button{padding:.4rem .9rem;border:0;border-radius:6px;background:#3a6;color:#fff;cursor:pointer}
+ul{list-style:none;padding:0}
+li{padding:.6rem 0;border-bottom:1px solid #eee}
+.tags span{font-size:.75rem;background:#eef;border-radius:4px;padding:.1rem .4rem;margin-right:.3rem}
+.del{background:transparent;color:#a33;float:right}
+</style>
+</head>
+<body>
+<h1>Link Shelf</h1>
+<form id="add">
+<input name="url" placeholder="https://\u2026" required>
+<input name="title" placeholder="Title (optional)">
+<input name="tags" placeholder="tags, comma separated">
+<button type="submit">Save</button>
+</form>
+<input id="q" placeholder="Search your shelf" style="width:100%;margin-bottom:1rem">
+<ul id="list"></ul>
+<script type="module" src="shelf.js"></script>
+</body>
+</html>
