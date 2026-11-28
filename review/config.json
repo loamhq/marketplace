@@ -2,8 +2,8 @@
   "model": "gemini-4-argon",
   "loam": {
     "repo": "loamhq/loam",
-    "version": "0.2.42",
-    "commit": "98b297425bc9d81beff5ab9b5790bbf0ec2f6e33"
+    "version": "0.2.43",
+    "commit": "4f4434addb03cb2cb37b3054f6fad361194168df"
   },
   "limits": {
     "context_bytes": 2500000,
